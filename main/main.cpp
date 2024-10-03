@@ -3,7 +3,7 @@
 
 int main() 
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Cat Game");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Cat-tastrofe");
     window.setFramerateLimit(60);
 
     Cat cat("/Cat-tastrofe-Cat-tastrofe/resources/cat.png"); 
