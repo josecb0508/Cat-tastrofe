@@ -1,4 +1,4 @@
-#include </home/jose/Descargas/Cat-tastrofe-Cat-tastrofe/lib/include/Cat.hpp>
+#include <Cat.hpp>
 
 Cat::Cat(const std::string& sprite_cat)
     : velocity(0.f, 0.f),
@@ -6,7 +6,7 @@ Cat::Cat(const std::string& sprite_cat)
       frameDuration(0.1f),  
       frameCount(4),        
       currentRow(0),       
-      isMoving(false)      
+      isMoving(false)       
 {
     texture.loadFromFile(sprite_cat);
 
