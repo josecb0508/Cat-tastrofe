@@ -6,7 +6,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Cat-tastrofe");
     window.setFramerateLimit(60);
 
-    Cat cat("/Cat-tastrofe-Cat-tastrofe/resources/cat.png"); 
+    Cat cat("resources/cat.png");
 
     sf::Clock clock;
 
