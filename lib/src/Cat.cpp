@@ -1,96 +1,144 @@
 #include <Cat.hpp>
 
 Cat::Cat(const std::string& sprite_cat)
-    : velocity(0.f, 0.f),
-      animationTime(0.f),
-      frameDuration(0.1f),  
-      frameCount(4),        
-      currentRow(0),       
-      isMoving(false)       
+    : velocity_(0, 0),
+      animation_time_(0),
+      frame_duration_(0.1),  
+      frame_count_(4),        
+      current_row_(0),       
+      moving_(false),      
+      attacking_(false),
+      attack_duration_(0.5),  
+      attack_timer_(0.1)       
 {
-    texture.loadFromFile(sprite_cat);
-
-    frameWidth = texture.getSize().x / frameCount;
-    frameHeight = texture.getSize().y / frameCount;       
-
-    sprite.setTexture(texture);
-    currentFrame = sf::IntRect(28, 28, 28, 28);
-    sprite.setTextureRect(currentFrame);
-    sprite.setScale(3.f, 3.f);
+    texture_.loadFromFile(sprite_cat);
+    frame_width_ = texture_.getSize().x / frame_count_;
+    frame_height_ = texture_.getSize().y / frame_count_;       
+    sprite_.setTexture(texture_);
+    current_frame_ = sf::IntRect(0, 0, 28, 28);
+    sprite_.setTextureRect(current_frame_);
+    sprite_.setScale(3, 3); 
+    square_.setSize(sf::Vector2f(50, 50));
+    square_.setFillColor(sf::Color::Red);
 }
 
 void Cat::move(float deltaTime) 
 {
-    velocity = sf::Vector2f(0.f, 0.f);
-    isMoving = false;  
+    velocity_ = sf::Vector2f(0, 0);
+    moving_ = false;  
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) 
     {
-        velocity.y = -200.f;
-        setDirection(2); 
-        isMoving = true;
+        velocity_.y = -200;
+        Direction(2); 
+        moving_ = true;
     } 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) 
     {
-        velocity.y = 200.f;
-        setDirection(0); 
-        isMoving = true;
+        velocity_.y = 200;
+        Direction(0); 
+        moving_ = true;
     } 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
     {
-        velocity.x = -200.f;
-        setDirection(1); 
-        isMoving = true;
+        velocity_.x = -200;
+        Direction(1); 
+        moving_ = true;
     } 
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
     {
-        velocity.x = 200.f;
-        setDirection(3); 
-        isMoving = true;
+        velocity_.x = 200;
+        Direction(3); 
+        moving_ = true;
     }
 
-    if (isMoving) 
+    if (moving_) 
     {
-        sprite.move(velocity * deltaTime);
-        updateAnimation(deltaTime);
+        sprite_.move(velocity_ * deltaTime);
+        Animation(deltaTime);
     } else 
     {
-        currentFrame.left = 0;
-        sprite.setTextureRect(currentFrame);
+        current_frame_.left = 0;
+        sprite_.setTextureRect(current_frame_);
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && !attacking_) 
+    {
+        attack();
+    }
+    Attack_Cat(deltaTime);    
 }
 
-void Cat::updateAnimation(float deltaTime) 
+void Cat::Animation(float deltaTime) 
 {
-    animationTime += deltaTime;
-
-    
-    if (animationTime >= frameDuration) 
+    animation_time_ += deltaTime;
+    if (animation_time_ >= frame_duration_) 
     {
-        animationTime = 0.f;
-
-        currentFrame.left += frameWidth;
-        if (currentFrame.left >= frameWidth * frameCount) 
+        animation_time_ = 0;
+        current_frame_.left += frame_width_;
+        if (current_frame_.left >= frame_width_ * frame_count_) 
         {
-            currentFrame.left = 0; 
+            current_frame_.left = 0; 
         }
         
-        sprite.setTextureRect(currentFrame); 
+        sprite_.setTextureRect(current_frame_); 
     }
 }
 
-void Cat::setDirection(int row) 
+void Cat::attack() 
 {
-    if (currentRow != row) 
+    attacking_ = true;
+    attack_timer_ = 0;
+
+    if (current_row_ == 0)  
     {
-        currentRow = row;
-        currentFrame.top = currentRow * frameHeight; 
-        currentFrame.left = 0;  
-        sprite.setTextureRect(currentFrame);
+        square_.setPosition(sprite_.getPosition().x, sprite_.getPosition().y + 100);
+    }
+    
+    else if (current_row_ == 1)  
+    {
+        square_.setPosition(sprite_.getPosition().x - 60, sprite_.getPosition().y);
+    }
+
+    else if (current_row_ == 2)  
+    {
+        square_.setPosition(sprite_.getPosition().x, sprite_.getPosition().y - 60);
+    }
+
+    else if (current_row_ == 3) 
+    {
+        square_.setPosition(sprite_.getPosition().x + 100, sprite_.getPosition().y);
+    }
+} 
+
+void Cat::Attack_Cat(float deltaTime) 
+{
+    if (attacking_) 
+    {
+        attack_timer_ += deltaTime;
+        if (attack_timer_ >= attack_duration_) 
+        {
+            attacking_ = false; 
+        }
+    }
+}
+
+void Cat::Direction(int row) 
+{
+    if (current_row_ != row) 
+    {
+        current_row_ = row;
+        current_frame_.top = current_row_ * frame_height_; 
+        current_frame_.left = 0;  
+        sprite_.setTextureRect(current_frame_);
     }
 }
 
 void Cat::draw(sf::RenderWindow& window) 
 {
-    window.draw(sprite);
-}
+    window.draw(sprite_);
+    if (attacking_) 
+    {
+        window.draw(square_);  
+    }    
+} 
