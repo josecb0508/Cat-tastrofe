@@ -1,6 +1,6 @@
-#include <Cat.hpp>
+#include "Cat.hpp"
 
-Cat::Cat(const std::string& sprite_cat)
+Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initialPosition)
     : velocity_(0, 0),
       animation_time_(0),
       frame_duration_(0.1),  
@@ -17,48 +17,79 @@ Cat::Cat(const std::string& sprite_cat)
     sprite_.setTexture(texture_);
     current_frame_ = sf::IntRect(0, 0, 28, 28);
     sprite_.setTextureRect(current_frame_);
-    sprite_.setScale(3, 3); 
+    sprite_.setScale(1.5, 1.5); 
+    sprite_.setPosition(initialPosition); 
+
     square_.setSize(sf::Vector2f(50, 50));
     square_.setFillColor(sf::Color::Red);
+
+    size_ = sf::Vector2i(30, 30); // Hitbox size
+    /*bounding_square_.setFillColor(sf::Color::Transparent);
+    bounding_square_.setOutlineColor(sf::Color::Red);
+    bounding_square_.setOutlineThickness(1);*/
+    bounding_square_.setSize(sf::Vector2f(size_.x * sprite_.getScale().x, size_.y * sprite_.getScale().y));
+}   
+
+bool Cat::isRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect) {
+    sf::Vector2f topLeft(innerRect.left, innerRect.top);
+    sf::Vector2f topRight(innerRect.left + innerRect.width, innerRect.top);
+    sf::Vector2f bottomLeft(innerRect.left, innerRect.top + innerRect.height);
+    sf::Vector2f bottomRight(innerRect.left + innerRect.width, innerRect.top + innerRect.height);
+
+    return outerRect.contains(topLeft) &&
+           outerRect.contains(topRight) &&
+           outerRect.contains(bottomLeft) &&
+           outerRect.contains(bottomRight);
 }
 
-void Cat::move(float deltaTime) 
-{
+void Cat::move(float deltaTime, const Map& room) {
     velocity_ = sf::Vector2f(0, 0);
-    moving_ = false;  
+    moving_ = false;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) 
-    {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         velocity_.y = -200;
-        Direction(2); 
+        Direction(2);
         moving_ = true;
     } 
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) 
-    {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
         velocity_.y = 200;
-        Direction(0); 
+        Direction(0);
         moving_ = true;
     } 
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) 
-    {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         velocity_.x = -200;
-        Direction(1); 
+        Direction(1);
         moving_ = true;
     } 
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) 
-    {
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
         velocity_.x = 200;
-        Direction(3); 
+        Direction(3);
         moving_ = true;
     }
 
-    if (moving_) 
-    {
-        sprite_.move(velocity_ * deltaTime);
+    if (moving_) {
+        
+        sf::Vector2f newPosition = sprite_.getPosition() + (velocity_ * deltaTime);
+
+        sf::FloatRect hitboxBounds = bounding_square_.getGlobalBounds();
+        hitboxBounds.left = newPosition.x; 
+        hitboxBounds.top = newPosition.y;
+
+        sf::FloatRect mapBounds = room.getBounds();
+
+        if (isRectContained(mapBounds, hitboxBounds)) {
+
+            sprite_.setPosition(newPosition);
+            last_valid_position_ = newPosition; 
+
+        } 
+       
+        bounding_square_.setPosition(sprite_.getPosition());
+
         Animation(deltaTime);
-    } else 
-    {
-        current_frame_.left = 0;
+    } 
+    else {
+        current_frame_.left = 0; 
         sprite_.setTextureRect(current_frame_);
     }
 
@@ -67,6 +98,8 @@ void Cat::move(float deltaTime)
         attack();
     }
     Attack_Cat(deltaTime);    
+
+    bounding_square_.setPosition(sprite_.getPosition());
 }
 
 void Cat::Animation(float deltaTime) 
@@ -136,9 +169,10 @@ void Cat::Direction(int row)
 
 void Cat::draw(sf::RenderWindow& window) 
 {
+    //window.draw(bounding_square_);
     window.draw(sprite_);
     if (attacking_) 
     {
         window.draw(square_);  
     }    
-} 
+}
