@@ -31,7 +31,7 @@ Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initialPosition)
     bounding_square_.setSize(sf::Vector2f(size_.x * sprite_.getScale().x, size_.y * sprite_.getScale().y));
 }   
 
-bool Cat::isRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect) {
+bool Cat::IsRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect) {
     sf::Vector2f topLeft(innerRect.left, innerRect.top);
     sf::Vector2f topRight(innerRect.left + innerRect.width, innerRect.top);
     sf::Vector2f bottomLeft(innerRect.left, innerRect.top + innerRect.height);
@@ -78,7 +78,7 @@ void Cat::Move(float deltaTime, const Map& room, Enemy& enemy) {
 
         sf::FloatRect mapBounds = room.GetBounds();
 
-        if (isRectContained(mapBounds, hitboxBounds)) {
+        if (IsRectContained(mapBounds, hitboxBounds)) {
 
             sprite_.setPosition(newPosition);
             last_valid_position_ = newPosition; 
