@@ -1,12 +1,20 @@
 #include <SFML/Graphics.hpp>
-#include <Cat.hpp>
+#include "Cat.hpp"
+#include "Map.hpp"
 
 int main() 
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Cat-tastrofe");
     window.setFramerateLimit(60);
 
-    Cat cat("resources/cat.png");
+    Map room(600, 400);
+
+    sf::Vector2f initialPosition(
+        room.getBounds().left + (room.getBounds().width / 2) - (30 * 1.5 / 2), 
+        room.getBounds().top + (room.getBounds().height / 2) - (30 * 1.5 / 2)
+    );
+
+    Cat cat("C:\\Users\\aacmq\\OneDrive\\Escritorio\\CC0X_PR3\\Cat-tastrofe\\resources\\cat.png", initialPosition);
 
     sf::Clock clock;
 
@@ -22,9 +30,11 @@ int main()
         }
 
         float deltaTime = clock.restart().asSeconds();
-        cat.move(deltaTime); 
+        cat.move(deltaTime, room);
+
         window.clear();
-        cat.draw(window);    
+        room.draw(window);
+        cat.draw(window);
         window.display();
     }
     return 0;
