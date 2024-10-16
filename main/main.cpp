@@ -1,22 +1,23 @@
 #include <SFML/Graphics.hpp>
 #include "Cat.hpp"
 #include "Map.hpp"
-
-int main() 
+#include "Enemy.hpp"
+ 
+int main()  
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Cat-tastrofe");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Cat-tastrofe");
     window.setFramerateLimit(60);
 
-    Map room(600, 400);
+    Map room(1920, 1080);
 
-    sf::Vector2f initialPosition(
-        room.getBounds().left + (room.getBounds().width / 2) - (30 * 1.5 / 2), 
-        room.getBounds().top + (room.getBounds().height / 2) - (30 * 1.5 / 2)
-    );
+sf::Vector2f initialPosition(
+    room.GetBounds().width / 2 - (30 * 1.5 / 2), 
+    room.GetBounds().height / 2 - (30 * 1.5 / 2)
+);
+    Cat cat("resources/cat.png", initialPosition);
+    Enemy enemy("resources/enemy.png", sf::Vector2f(850, 600), 200);
 
-    Cat cat("C:\\Users\\aacmq\\OneDrive\\Escritorio\\CC0X_PR3\\Cat-tastrofe\\resources\\cat.png", initialPosition);
-
-    sf::Clock clock;
+    sf::Clock clock; 
 
     while (window.isOpen()) 
     {
@@ -30,11 +31,15 @@ int main()
         }
 
         float deltaTime = clock.restart().asSeconds();
-        cat.move(deltaTime, room);
+        cat.Move(deltaTime, room, enemy);
 
         window.clear();
-        room.draw(window);
-        cat.draw(window);
+        room.Draw(window);
+    if (!enemy.IsDead()) {
+        enemy.Draw(window);  
+    }
+
+        cat.Draw(window);
         window.display();
     }
     return 0;
