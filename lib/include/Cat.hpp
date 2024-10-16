@@ -3,19 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 #include "Map.hpp"
+#include "Enemy.hpp"
 
 class Cat {
 public:
     Cat(const std::string& spriteSheet, const sf::Vector2f& initialPosition);
-    void move(float deltaTime, const Map& room);
-    void draw(sf::RenderWindow& window);
+    void Move(float deltaTime, const Map& room, Enemy& enemy);
+    void Draw(sf::RenderWindow& window);
     static bool isRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect);
 
 private:
-    void Animation(float deltaTime);
-    void Direction(int row);
-    void attack();
-    void Attack_Cat(float deltaTime);
+    void Animate(float deltaTime);
+    void SetDirection(int row);
+    void StartAttack();
+    void Scratch(float deltaTime, Enemy& enemy);
 
     sf::Texture texture_;
     sf::Sprite sprite_;
@@ -34,7 +35,6 @@ private:
     bool attacking_;
     float attack_duration_;
     float attack_timer_;
-
     sf::Vector2f last_valid_position_;
 };
 

@@ -2,24 +2,6 @@
 #define MAP_HPP
 
 #include <SFML/Graphics.hpp>
-
-class Map {
-public:
-    Map(float width, float height);
-    void draw(sf::RenderWindow& window);
-    const sf::FloatRect getBounds() const;
-
-private:
-    sf::RectangleShape wall_;
-};
-
-#endif 
-
-
-/*#ifndef MAP_HPP
-#define MAP_HPP
-
-#include <SFML/Graphics.hpp>
 #include <vector>
 
 enum CellType {
@@ -33,10 +15,13 @@ enum CellType {
 class Map {
 public:
     Map(int width, int height);
-    void generateMap();
-    void draw(sf::RenderWindow &window);
+    void GenerateMap();
+    void Draw(sf::RenderWindow &window);
+    const sf::FloatRect GetBounds() const;
+
 
 private:
+    sf::RectangleShape wall_;
     std::vector<std::vector<CellType>> floorplan;
     int cellWidth;
     int cellHeight;
@@ -44,5 +29,5 @@ private:
     int mapHeight;
 };
 
-#endif // MAP_HPP*/
+#endif 
 
