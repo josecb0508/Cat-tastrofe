@@ -1,34 +1,19 @@
 #include "Map.hpp"
-
-Map::Map(float width, float height) {
-    wall_.setSize(sf::Vector2f(width, height));
-    wall_.setFillColor(sf::Color::White); 
-
-    float windowWidth = 800; 
-    float windowHeight = 600; 
-    wall_.setPosition((windowWidth - width) / 2, (windowHeight - height) / 2); 
-}
-
-void Map::draw(sf::RenderWindow& window) {
-    window.draw(wall_);
-}
-
-const sf::FloatRect Map::getBounds() const {
-    return wall_.getGlobalBounds(); 
-}
-
-/* #include "Map.hpp"
 #include <random>
 #include <queue>
 #include <iostream>
 
 Map::Map(int width, int height)
-    : cellWidth(width), cellHeight(height), 
-      mapWidth(width), mapHeight(height) {
+    : mapWidth(width), mapHeight(height), cellWidth(100), cellHeight(100) {
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
+     GenerateMap();
+}
+ 
+const sf::FloatRect Map::GetBounds() const {
+    return sf::FloatRect(0, 0, mapWidth, mapHeight);
 }
 
-void Map::generateMap() {
+void Map::GenerateMap() {
     const int maxRooms = 20;  // Número máximo de habitaciones
     std::queue<std::pair<int, int>> cellQueue;
     int roomCount = 0;
@@ -120,7 +105,7 @@ void Map::generateMap() {
     }
 }
 
-void Map::draw(sf::RenderWindow &window) {
+void Map::Draw(sf::RenderWindow &window) {
     for (int y = 0; y < floorplan.size(); ++y) {
         for (int x = 0; x < floorplan[y].size(); ++x) {
             sf::RectangleShape rect(sf::Vector2f(cellWidth, cellHeight));
@@ -147,4 +132,4 @@ void Map::draw(sf::RenderWindow &window) {
             window.draw(rect);
         }
     }
-} */
+} 
