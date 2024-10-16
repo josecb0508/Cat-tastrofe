@@ -10,7 +10,7 @@ public:
     Cat(const std::string& spriteSheet, const sf::Vector2f& initialPosition);
     void Move(float deltaTime, const Map& room, Enemy& enemy);
     void Draw(sf::RenderWindow& window);
-    static bool isRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect);
+    static bool IsRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect);
 
 private:
     void Animate(float deltaTime);
