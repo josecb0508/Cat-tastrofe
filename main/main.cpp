@@ -2,10 +2,12 @@
 #include "Cat.hpp"
 #include "Map.hpp"
 #include "Enemy.hpp"
+#include <Menu.hpp>
  
 int main()  
 {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Cat-tastrofe");
+    Menu menu(1920,1080);
     window.setFramerateLimit(60);
 
     Map room(1920, 1080);
@@ -28,18 +30,70 @@ sf::Vector2f initialPosition(
             {
                 window.close();
             }
+            if(event.type == Event::KeyPressed)
+            {
+                if(event.key.code == Keyboard::Down)
+                {
+                    menu.MoveDown();
+                }
+                if(event.key.code == Keyboard::Up)
+                {
+                    menu.Moveup();
+                }
+                if(event.key.code == Keyboard::Return)
+                {
+                    RenderWindow Play(VideoMode(1920,1080),"Play");
+                    RenderWindow Exit(VideoMode(1920,1080),"Exit");
+
+                    int x = menu.pressed();
+                    if(x == 0)
+                    {
+                        while(Play.isOpen())
+                        {
+                            sf::Event event;
+                            while(Play.pollEvent(event))
+                            {
+                                if(event.type == Event::Closed)
+                                {
+                                    Play.close();
+                                }
+                                if(event.type == Event::KeyPressed)
+                                {
+                                    if(event.key.code == Keyboard::Escape)
+                                    {
+                                        Play.close();
+                                    }
+                                }
+                            }
+                            float deltaTime = clock.restart().asSeconds();
+                            Exit.close();
+                            Play.clear(); 
+                            cat.Move(deltaTime, room, enemy);
+                            room.Draw(Play);
+
+                            if (!enemy.IsDead())
+                            {
+                                enemy.Draw(Play);  
+                            }
+
+                            cat.Draw(Play);
+                            Play.display();
+
+                           window.clear();                           
+                        }                           
+                    }
+                    if(x == 1)
+                    {
+                        Exit.close();
+                        window.close();
+                    }
+                }
+            }
+
         }
 
-        float deltaTime = clock.restart().asSeconds();
-        cat.Move(deltaTime, room, enemy);
-
         window.clear();
-        room.Draw(window);
-    if (!enemy.IsDead()) {
-        enemy.Draw(window);  
-    }
-
-        cat.Draw(window);
+        menu.draw(window);    
         window.display();
     }
     return 0;
