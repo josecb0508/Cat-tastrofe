@@ -10,12 +10,27 @@ int main()
     Menu menu(1920,1080);
     window.setFramerateLimit(60);
 
+    sf::RectangleShape rect(sf::Vector2f(200, 100));
+    rect.setSize(sf::Vector2f(1920, 1080));
+
     Map room(1920, 1080);
 
-sf::Vector2f initialPosition(
-    room.GetBounds().width / 2 - (30 * 1.5 / 2), 
-    room.GetBounds().height / 2 - (30 * 1.5 / 2)
-);
+    sf::Vector2f initialPosition(
+        room.GetBounds().width / 2 - (30 * 1.5 / 2), 
+        room.GetBounds().height / 2 - (30 * 1.5 / 2)
+    );
+
+    sf::Texture texture;
+    if (!texture.loadFromFile("resources/ciudad.png"))
+    {
+        throw "Error al cargar la textura";
+        return -1;
+    }
+
+    sf::Texture* _texture = new sf::Texture(texture);
+
+    rect.setTexture(_texture);
+  
     Cat cat("resources/cat.png", initialPosition);
     Enemy enemy("resources/enemy.png", sf::Vector2f(850, 600), 200);
 
@@ -24,6 +39,7 @@ sf::Vector2f initialPosition(
     while (window.isOpen()) 
     {
         sf::Event event;
+        
         while (window.pollEvent(event)) 
         {
             if (event.type == sf::Event::Closed) 
@@ -93,6 +109,7 @@ sf::Vector2f initialPosition(
         }
 
         window.clear();
+        window.draw(rect);
         menu.draw(window);    
         window.display();
     }
