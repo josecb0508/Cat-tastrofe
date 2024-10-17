@@ -113,7 +113,7 @@ void Map::Draw(sf::RenderWindow &window) {
 
             switch (floorplan[y][x]) {
                 case EMPTY:
-                    rect.setFillColor(sf::Color::Green);
+                    rect.setFillColor(sf::Color::Black);
                     break;
                 case FLOOR:
                     rect.setFillColor(sf::Color::White);
