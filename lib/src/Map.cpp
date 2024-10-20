@@ -4,7 +4,7 @@
 #include <iostream>
 
 Map::Map(int width, int height)
-    : mapWidth(width), mapHeight(height), cellWidth(100), cellHeight(100) {
+    : mapWidth(width), mapHeight(height), cellWidth(50), cellHeight(50) {
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
      GenerateMap();
 }
