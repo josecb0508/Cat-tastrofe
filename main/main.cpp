@@ -6,14 +6,14 @@
  
 int main()  
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Cat-tastrofe");
-    Menu menu(1920,1080);
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Cat-tastrofe");
+    Menu menu(800,600);
     window.setFramerateLimit(60);
 
     sf::RectangleShape rect(sf::Vector2f(200, 100));
-    rect.setSize(sf::Vector2f(1920, 1080));
+    rect.setSize(sf::Vector2f(800, 600));
 
-    Map room(1920, 1080);
+    Map room(800, 600);
 
     sf::Vector2f initialPosition(
         room.GetBounds().width / 2 - (30 * 1.5 / 2), 
@@ -32,7 +32,7 @@ int main()
     rect.setTexture(_texture);
   
     Cat cat("resources/cat.png", initialPosition);
-    Enemy enemy("resources/enemy.png", sf::Vector2f(850, 600), 200);
+    Enemy enemy("resources/enemy.png", sf::Vector2f(380, 250), 200);
 
     sf::Clock clock; 
 
@@ -58,8 +58,8 @@ int main()
                 }
                 if(event.key.code == Keyboard::Return)
                 {
-                    RenderWindow Play(VideoMode(1920,1080),"Play");
-                    RenderWindow Exit(VideoMode(1920,1080),"Exit");
+                    RenderWindow Play(VideoMode(800,600),"Play");
+                    RenderWindow Exit(VideoMode(800,600),"Exit");
 
                     int x = menu.pressed();
                     if(x == 0)
