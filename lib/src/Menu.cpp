@@ -11,13 +11,17 @@ Menu::Menu(float width,float heigth)
     mainmenu[0].setFillColor(Color{225,204,0});
     mainmenu[0].setString("Play");
     mainmenu[0].setCharacterSize(60);
-    mainmenu[0].setPosition(Vector2f(width / 2, heigth / (4)));
+    mainmenu[0].setPosition(Vector2f(
+        (width - mainmenu[0].getGlobalBounds().width)/ 2, 
+        heigth / (4)));
 
     mainmenu[1].setFont(font);
     mainmenu[1].setFillColor(Color::White);
     mainmenu[1].setString("Exit");
     mainmenu[1].setCharacterSize(60);
-    mainmenu[1].setPosition(Vector2f(width / 2, heigth / (4)+50));
+    mainmenu[1].setPosition(Vector2f(
+        (width - mainmenu[0].getGlobalBounds().width) / 2, 
+        heigth / (4)+50));
 
     selected = 0;
 }
