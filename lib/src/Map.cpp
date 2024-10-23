@@ -130,16 +130,16 @@ void Map::GenerateMap() {
 }
 
 void Map::LoadTextures() {
-    if (!room_texture_.loadFromFile("..\\resources\\normal_room.png")) {
+    if (!room_texture_.loadFromFile("resources/normal_room.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
-    if (!bossroom_Texture_.loadFromFile("..\\resources\\boss_room.png")) {
+    if (!bossroom_Texture_.loadFromFile("resources/boss_room.png")) {
         std::cerr << "Error loading boss room texture" << std::endl;
     }
-    if (!treasureroom_Texture_.loadFromFile("..\\resources\\treasure_room.png")) {
+    if (!treasureroom_Texture_.loadFromFile("resources/treasure_room.png")) {
         std::cerr << "Error loading treasure room texture" << std::endl;
     }
-    if (!secretroom_texture_.loadFromFile("..\\resources\\secret_room.png")) {
+    if (!secretroom_texture_.loadFromFile("resources/secret_room.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
     }
 }

@@ -20,12 +20,12 @@ int main()
         room.GetBounds().height / 2 - (30 * 1.5 / 2)
     );
 
-    Cat cat("..\\resources\\cat.png", initialPosition);
-    Enemy enemy("..\\resources\\enemy.png", sf::Vector2f(380, 250), 200);
+    Cat cat("resources/cat.png", initialPosition);
+    Enemy enemy("resources/enemy.png", sf::Vector2f(380, 250), 200);
 
     
     sf::Texture texture;
-    if (!texture.loadFromFile("..\\resources\\ciudad.png"))
+    if (!texture.loadFromFile("resources/ciudad.png"))
     {
         throw "Error al cargar la textura";
         return -1;
@@ -60,49 +60,31 @@ int main()
                 }
                 if(event.key.code == Keyboard::Return)
                 {
-                    RenderWindow Play(VideoMode(800,600),"Play");
-                    RenderWindow Exit(VideoMode(800,600),"Exit");
-
+                    
                     int x = menu.pressed();
+
                     if(x == 0)
                     {
-                        while(Play.isOpen())
+                        while(window.isOpen())
                         {
-                            sf::Event event;
-                            while(Play.pollEvent(event))
-                            {
-                                if(event.type == Event::Closed)
-                                {
-                                    Play.close();
-                                }
-                                if(event.type == Event::KeyPressed)
-                                {
-                                    if(event.key.code == Keyboard::Escape)
-                                    {
-                                        Play.close();
-                                    }
-                                }
-                            }
                             float deltaTime = clock.restart().asSeconds();
-                            Exit.close();
-                            Play.clear(); 
+                            window.clear(); 
                             cat.Move(deltaTime, room, enemy);
-                            room.Draw(Play);
+                            room.Draw(window);
 
                             if (!enemy.IsDead())
                             {
-                                enemy.Draw(Play);  
+                                enemy.Draw(window);  
                             }
 
-                            cat.Draw(Play);
-                            Play.display();
+                            cat.Draw(window);
+                            window.display();
 
                            window.clear();                           
                         }                           
                     }
                     if(x == 1)
                     {
-                        Exit.close();
                         window.close();
                     }
                 }
