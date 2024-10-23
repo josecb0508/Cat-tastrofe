@@ -8,20 +8,24 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Cat-tastrofe");
     Menu menu(800,600);
+    int current_level = 2;
     window.setFramerateLimit(60);
 
     sf::RectangleShape rect(sf::Vector2f(200, 100));
     rect.setSize(sf::Vector2f(800, 600));
-
-    Map room(800, 600);
+    Map room(800, 600, current_level);
 
     sf::Vector2f initialPosition(
         room.GetBounds().width / 2 - (30 * 1.5 / 2), 
         room.GetBounds().height / 2 - (30 * 1.5 / 2)
     );
 
+    Cat cat("..\\resources\\cat.png", initialPosition);
+    Enemy enemy("..\\resources\\enemy.png", sf::Vector2f(380, 250), 200);
+
+    
     sf::Texture texture;
-    if (!texture.loadFromFile("resources/ciudad.png"))
+    if (!texture.loadFromFile("..\\resources\\ciudad.png"))
     {
         throw "Error al cargar la textura";
         return -1;
@@ -31,9 +35,7 @@ int main()
 
     rect.setTexture(_texture);
   
-    Cat cat("resources/cat.png", initialPosition);
-    Enemy enemy("resources/enemy.png", sf::Vector2f(380, 250), 200);
-
+    
     sf::Clock clock; 
 
     while (window.isOpen()) 

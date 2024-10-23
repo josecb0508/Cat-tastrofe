@@ -5,7 +5,7 @@ using namespace sf;
 
 Menu::Menu(float width,float heigth)
 {
-    font.loadFromFile("resources/Silkscreen-Regular.ttf"); 
+    font.loadFromFile("C:\\Users\\aacmq\\OneDrive\\Documentos\\Animus\\Cat-tastrofe\\resources\\Silkscreen-Regular.ttf"); 
 
     mainmenu[0].setFont(font);
     mainmenu[0].setFillColor(Color{225,204,0});
