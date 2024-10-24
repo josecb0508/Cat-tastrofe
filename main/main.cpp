@@ -21,7 +21,7 @@ int main()
     );
 
     Cat cat("resources/cat.png", initialPosition);
-    Enemy enemy("resources/enemy.png", sf::Vector2f(380, 250), 200);
+    Enemy enemy("resources/enemy.png", sf::Vector2f(380, 250), 350);
 
     
     sf::Texture texture;
