@@ -8,6 +8,7 @@
 class Cat {
 public:
     Cat(const std::string& spriteSheet, const sf::Vector2f& initialPosition);
+    void setPosition(const sf::Vector2f& position);
     void Move(float deltaTime, const Map& room, Enemy& enemy);
     void Draw(sf::RenderWindow& window);
     static bool IsRectContained(const sf::FloatRect& outerRect, const sf::FloatRect& innerRect);

@@ -14,6 +14,17 @@ Enemy::Enemy(const std::string& spriteSheet, const sf::Vector2f& position, float
     bounding_square_.setPosition(position);
 }
 
+void Enemy::setPosition(const sf::Vector2f& position)
+{
+    sprite_.setPosition(position);
+    bounding_square_.setPosition(position);
+}
+
+void Enemy::setHealth(float health)
+{
+    health_ = health; 
+}
+
 void Enemy::Draw(sf::RenderWindow& window) {
     window.draw(sprite_);      
     window.draw(bounding_square_); 

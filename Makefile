@@ -55,7 +55,10 @@ $(TARGET_DEBUG): $(OBJ_DEBUG)
 # phony rules
 .PHONY: makedir
 makedir:
-	@mkdir -p $(BIN_PATH) $(OBJ_PATH) $(DBG_PATH)
+	@if exist $(BIN_PATH) (rmdir /s /q $(BIN_PATH))
+	@if exist $(OBJ_PATH) (rmdir /s /q $(OBJ_PATH))
+	@if exist $(DBG_PATH) (rmdir /s /q $(DBG_PATH))
+	@mkdir $(BIN_PATH) $(OBJ_PATH) $(DBG_PATH)
 
 .PHONY: all
 all: $(TARGET)
@@ -66,9 +69,9 @@ debug: $(TARGET_DEBUG)
 .PHONY: clean
 clean:
 	@echo CLEAN $(CLEAN_LIST)
-	@rm -f $(CLEAN_LIST)
+	@del $(CLEAN_LIST) /Q
 
 .PHONY: distclean
 distclean:
 	@echo CLEAN $(DISTCLEAN_LIST)
-	@rm -f $(DISTCLEAN_LIST)
+	@del $(DISTCLEAN_LIST) /Q

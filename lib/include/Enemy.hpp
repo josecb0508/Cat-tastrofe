@@ -7,6 +7,8 @@
 class Enemy {
 public:
     Enemy(const std::string& spriteSheet, const sf::Vector2f& position, float health);
+    void setPosition(const sf::Vector2f& position);
+    void setHealth(float health);
     void Draw(sf::RenderWindow& window);
     void TakeDamage(float damage);
     bool IsDead() const;

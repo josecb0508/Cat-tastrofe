@@ -43,6 +43,12 @@ bool Cat::IsRectContained(const sf::FloatRect& outer_rect, const sf::FloatRect& 
            outer_rect.contains(bottom_right);
 }
 
+void Cat::setPosition(const sf::Vector2f& position)
+{
+    sprite_.setPosition(position);
+}
+
+
 void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {
     if (!attacking_) {
         velocity_ = sf::Vector2f(0, 0);
