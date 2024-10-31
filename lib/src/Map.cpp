@@ -5,7 +5,7 @@
 #include <cmath>
 
 Map::Map(int width, int height, int level)
-    : mapWidth(width), mapHeight(height), cellWidth(40), cellHeight(40), currentLevel(level) {
+    : mapWidth(width), mapHeight(height), cellWidth(20), cellHeight(20), currentLevel(level) {
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
 
     LoadTextures();
@@ -144,7 +144,7 @@ void Map::LoadTextures() {
     }
 }
 
-void Map::Draw(sf::RenderWindow &window) {
+void Map::Draw(sf::RenderWindow* window) {
     for (int y = 0; y < floorplan.size(); ++y) {
         for (int x = 0; x < floorplan[y].size(); ++x) {
             sf::RectangleShape rect(sf::Vector2f(cellWidth, cellHeight));
@@ -169,7 +169,8 @@ void Map::Draw(sf::RenderWindow &window) {
                     break;
             }
 
-            window.draw(rect);
+            rect.move(300, -220);
+            window->draw(rect);
         }
     }
 }
