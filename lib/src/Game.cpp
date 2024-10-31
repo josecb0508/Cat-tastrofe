@@ -4,20 +4,19 @@
 #include "Enemy.hpp"
 #include <Menu.hpp>
 #include "Game.hpp"
+#include "Golem.hpp"
 
 Game::Game() 
     : window(sf::VideoMode(800, 600), "Cat-tastrofe"), 
       menu(800, 600), 
       current_level(1), 
-      room(800, 600, current_level), // Inicialización de room
+      room(800, 600, current_level),
       cat("resources/cat.png", sf::Vector2f(0,0)),
-      enemy("resources/enemy.png", sf::Vector2f(0,0), 0)
-
+      golem("resources/enemy.png", "resources/enemy.png", sf::Vector2f(380, 350)) 
 {
     window.setFramerateLimit(60);
     initGame();
 }
-
 void Game::run() {
     while (window.isOpen()) {
         handleEvents();
@@ -33,9 +32,9 @@ void Game::initGame() {
         room.GetBounds().height / 2 - (30 * 1.5 / 2)
     );
 
-    cat.setPosition(initialPosition);
-    enemy.setPosition(sf::Vector2f(380,250));
-    enemy.setHealth(100);
+    cat.SetPosition(initialPosition);
+    golem.setPosition(sf::Vector2f(200,150));
+    golem.setHealth(350);
 
     if (!texture.loadFromFile("resources/ciudad.png")) {
         throw "Error al cargar la textura";
@@ -72,17 +71,18 @@ void Game::handleMenuInput(const sf::Event& event) {
         if (x == 1) {
             window.close();
         }
-    }
+    } 
 }
 
 void Game::startGameLoop() {
     while (window.isOpen()) {
         float deltaTime = clock.restart().asSeconds();
         window.clear();
-        cat.Move(deltaTime, room, enemy);
+        cat.Move(deltaTime, room, golem);
+        golem.Move(deltaTime, cat.GetPosition());
         room.Draw(window);
-        if (!enemy.IsDead()) {
-            enemy.Draw(window);
+        if (!golem.IsDead()) {
+            golem.Draw(window);
         }
         cat.Draw(window);
         window.display();
