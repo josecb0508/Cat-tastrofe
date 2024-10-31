@@ -17,7 +17,7 @@ public:
     Map(int width, int height, int level);
     void GenerateMap();
     void LoadTextures();
-    void Draw(sf::RenderWindow &window);
+    void Draw(sf::RenderWindow* window);
     const sf::FloatRect GetBounds() const;
 
 private:
