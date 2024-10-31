@@ -10,9 +10,9 @@ public:
     void UpdateDirection(const sf::Vector2f& targetPosition);
         
 private:
-    sf::Texture attackTexture_;
-    sf::Sprite attackSprite_;
-    float currentDirection_;
+    sf::Texture attack_texture_;
+    sf::Sprite attack_sprite_;
+    float current_direction_;
 };
 
 #endif
