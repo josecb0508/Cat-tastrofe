@@ -6,6 +6,7 @@
 #include "Map.hpp"
 #include "Enemy.hpp"
 #include "Menu.hpp"
+#include "Golem.hpp"
 
 class Game {
 public:
@@ -17,7 +18,7 @@ private:
     Menu menu;
     int current_level;
     Cat cat;
-    Enemy enemy;
+    Golem golem;
     Map room;
     sf::RectangleShape rect;
     sf::Texture texture;
