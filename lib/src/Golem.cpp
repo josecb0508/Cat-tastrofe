@@ -4,9 +4,9 @@
 Golem::Golem(const std::string& spriteSheet, const std::string& attackSpriteSheet, const sf::Vector2f& position)
     : Enemy(spriteSheet, position, 50, {20, 25}, {3, 3}, sf::Color::Transparent)
 {
-    attackTexture_.loadFromFile(attackSpriteSheet);
-    attackSprite_.setTexture(attackTexture_);
-    attackSprite_.setPosition(position);
+    attack_texture_.loadFromFile(attackSpriteSheet);
+    attack_sprite_.setTexture(attack_texture_);
+    attack_sprite_.setPosition(position);
 }
 void Golem::Move(float deltaTime, const sf::Vector2f& targetPosition) {
     sf::Vector2f direction = targetPosition - sprite_.getPosition();
@@ -24,9 +24,9 @@ void Golem::UpdateDirection(const sf::Vector2f& targetPosition) {
     float dx = targetPosition.x - sprite_.getPosition().x;
     float dy = targetPosition.y - sprite_.getPosition().y;
     if (std::abs(dx) > std::abs(dy)) {
-        currentDirection_ = (dx > 0) ? 3 : 2; 
+        current_direction_ = (dx > 0) ? 3 : 2; 
     } else {
 
-        currentDirection_ = (dy > 0) ? 1 : 0; 
+        current_direction_ = (dy > 0) ? 1 : 0; 
     }
 }
