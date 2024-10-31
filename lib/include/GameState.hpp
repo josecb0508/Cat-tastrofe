@@ -2,6 +2,7 @@
 #include "Cat.hpp"
 #include "Map.hpp"
 #include "Enemy.hpp"
+#include "Golem.hpp"
 
 class GameState : public State
 {
@@ -16,6 +17,6 @@ public:
 private:
     int current_level;
     Cat cat;
-    Enemy enemy;
+    Golem golem;
     Map room;
 };

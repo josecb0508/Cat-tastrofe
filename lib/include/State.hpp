@@ -1,3 +1,5 @@
+#ifndef STATE_HPP
+#define STATE_HPP
 #include <SFML/Graphics.hpp>
 #include <stack>
 
@@ -16,3 +18,4 @@ protected:
     std::stack<State*>* state_stack;
     sf::RenderWindow* window;
 };
+#endif // STATE_HPP

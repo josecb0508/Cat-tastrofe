@@ -1,6 +1,6 @@
 #ifndef GAME_HPP
 #define GAME_HPP
-
+#include "State.hpp"
 #include <SFML/Graphics.hpp>
 #include "Cat.hpp"
 #include "Map.hpp"
@@ -12,23 +12,19 @@ class Game {
 public:
     Game();
     void run();
+    ~Game();  
 
 private:
-    sf::RenderWindow window;
-    Menu menu;
-    int current_level;
-    Cat cat;
-    Golem golem;
-    Map room;
+    sf::RenderWindow *window;
+    std::stack<State*> state_stack;
     sf::RectangleShape rect;
     sf::Texture texture;
     sf::Clock clock;
+    float deltaTime;
 
-    void initGame();
-    void handleEvents();
-    void handleMenuInput(const sf::Event& event);
-    void startGameLoop();
-    void update();
+    void InitGame();
+    void HandleEvents();
+    void Update();
+    void Draw();
 };
-
 #endif // GAME_HPP
