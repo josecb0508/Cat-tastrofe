@@ -1,12 +1,12 @@
 #include "GameState.hpp"
+#include "Golem.hpp"
 
 GameState::GameState(std::stack<State*>* state_stack, sf::RenderWindow* window)
     : State(state_stack, window),
       current_level(1), 
       room(800, 600, current_level), 
       cat("resources/cat.png", sf::Vector2f(0,0)),
-      enemy("resources/enemy.png", sf::Vector2f(0,0), 0)
-
+      golem("resources/enemy.png", "resources/enemy.png", sf::Vector2f(380, 350)) 
 {
     Init();
 }
@@ -21,8 +21,8 @@ void GameState::Init()
     );
 
     cat.SetPosition(initialPosition);
-    enemy.SetPosition(sf::Vector2f(380, 250));
-    enemy.SetHealth(100);
+    golem.setPosition(sf::Vector2f(200,150));
+    golem.setHealth(150);
 }
 
 void GameState::ProcessInput(sf::Event& event)
@@ -32,7 +32,8 @@ void GameState::ProcessInput(sf::Event& event)
 
 void GameState::Update(const float& deltaTime)
 {
-    cat.Move(deltaTime, room, enemy);
+    cat.Move(deltaTime, room, golem);
+    golem.Move(deltaTime, cat.GetPosition());
 }
 
 void GameState::Draw(sf::RenderWindow* window)
@@ -42,8 +43,8 @@ void GameState::Draw(sf::RenderWindow* window)
         room.Draw(window);
     }
 
-    if (!enemy.IsDead()) {
-        enemy.Draw(window);
+    if (!golem.IsDead()) {
+        golem.Draw(*window);
     }
-    cat.Draw(window);
+    cat.Draw(*window);
 }

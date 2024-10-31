@@ -1,44 +1,79 @@
 #include <Menu.hpp>
-#include <SFML/Graphics.hpp>
 using namespace std;
 using namespace sf; 
 
-Menu::Menu(float width,float heigth)
+Menu::Menu(stack<State*> *state_stack,RenderWindow* window, float width,float heigth)
+    :State(state_stack, window)
 {
-    font.loadFromFile("resources/Silkscreen-Regular.ttf"); 
+    Init();
+}
+
+Menu::~Menu(){}
+
+void Menu::Init() {
+    
+    if (!texture.loadFromFile("resources/ciudad.png")) 
+    {
+        throw "Error al cargar la textura";
+    }
+
+    menu_sprite.setTexture(texture);
+    font.loadFromFile("resources/Silkscreen-Regular.ttf");
+    
 
     mainmenu[0].setFont(font);
-    mainmenu[0].setFillColor(Color{225,204,0});
+    mainmenu[0].setFillColor(Color{225, 204, 0});
     mainmenu[0].setString("Play");
     mainmenu[0].setCharacterSize(60);
-    mainmenu[0].setPosition(Vector2f(
-        (width - mainmenu[0].getGlobalBounds().width)/ 2, 
-        heigth / (4)));
+    mainmenu[0].setPosition(Vector2f((800 - mainmenu[0].getGlobalBounds().width) / 2, 600 / (4)));
 
     mainmenu[1].setFont(font);
     mainmenu[1].setFillColor(Color::White);
     mainmenu[1].setString("Exit");
     mainmenu[1].setCharacterSize(60);
-    mainmenu[1].setPosition(Vector2f(
-        (width - mainmenu[0].getGlobalBounds().width) / 2, 
-        heigth / (4)+50));
+    mainmenu[1].setPosition(Vector2f((800 - mainmenu[0].getGlobalBounds().width) / 2, 600 / (4) + 50));
 
-    selected = 0;
+    selected = 0;  // Inicializa el índice seleccionado
 }
 
-Menu::~Menu(){}
-
-void Menu::setSelected(int n)
+void Menu::SetSelected(int n)
 {
     selected = n;
 }
 
-void Menu::draw(RenderWindow& window)
+void Menu::ProcessInput(sf::Event& event)
 {
+    if (event.key.code == sf::Keyboard::Down) 
+    {
+        MoveDown();
+    }
+    if (event.key.code == sf::Keyboard::Up) {
+        MoveUp();
+    }
+    if (event.key.code == sf::Keyboard::Return) {
+        int x = Pressed();
+        if (x == 0) 
+        {
+            state_stack->push(new GameState(state_stack, window));
+        }
+        if (x == 1) 
+        {
+            window->close();
+        }
+    }
+}
+
+void Menu::Update(const float& deltaTime)
+{
+
+}
+
+void Menu::Draw(sf::RenderWindow* window)
+{
+    window->draw(menu_sprite);
     for(int i= 0; i < 2; i++)
     {
-        window.draw(mainmenu[i]);
-        
+        window->draw(mainmenu[i]);
     }
 
 }
@@ -57,7 +92,7 @@ void Menu::MoveDown()
     }
 }
 
-void Menu::Moveup()
+void Menu::MoveUp()
 {
     if(selected -1 >= -1)
     {
