@@ -157,7 +157,7 @@ void Cat::Scratch(float delta_time, Enemy& enemy) {
     if (attacking_) {
         AnimateAttack(delta_time);
         if (square_.getGlobalBounds().intersects(enemy.GetHitbox())) {
-            enemy.TakeDamage(10);
+            enemy.TakeDamage(50);
         }
     }
 }

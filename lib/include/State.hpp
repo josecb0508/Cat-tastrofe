@@ -7,15 +7,15 @@ class State
 {
 public:
     State(std::stack<State*> *state_stack, sf::RenderWindow* window);
-    virtual ~State(){}; // Virtual destructor
+    virtual ~State(){}; 
 
-    virtual void Init() = 0; // Make it pure virtual
-    virtual void ProcessInput(sf::Event& event) = 0; // Pure virtual
-    virtual void Update(const float& deltaTime) = 0; // Pure virtual
-    virtual void Draw(sf::RenderWindow* window = nullptr) = 0; // Keep as pure virtual
+    virtual void Init() = 0; 
+    virtual void ProcessInput(sf::Event& event) = 0; 
+    virtual void Update(const float& deltaTime) = 0; 
+    virtual void Draw(sf::RenderWindow* window = nullptr) = 0; 
 
 protected:
     std::stack<State*>* state_stack;
     sf::RenderWindow* window;
 };
-#endif // STATE_HPP
+#endif 

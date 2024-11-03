@@ -1,17 +1,17 @@
 #include <Menu.hpp>
+#include "MenuPauseState.hpp"
 using namespace std;
 using namespace sf; 
 
-Menu::Menu(stack<State*> *state_stack,RenderWindow* window, float width,float heigth)
-    :State(state_stack, window)
+Menu::Menu(stack<State*> *state_stack, RenderWindow* window, float width, float height)
+    : State(state_stack, window)
 {
     Init();
 }
 
-Menu::~Menu(){}
+Menu::~Menu() {}
 
 void Menu::Init() {
-    
     if (!texture.loadFromFile("resources/ciudad.png")) 
     {
         throw "Error al cargar la textura";
@@ -20,20 +20,19 @@ void Menu::Init() {
     menu_sprite.setTexture(texture);
     font.loadFromFile("resources/Silkscreen-Regular.ttf");
     
-
     mainmenu[0].setFont(font);
     mainmenu[0].setFillColor(Color{225, 204, 0});
     mainmenu[0].setString("Play");
     mainmenu[0].setCharacterSize(60);
-    mainmenu[0].setPosition(Vector2f((800 - mainmenu[0].getGlobalBounds().width) / 2, 600 / (4)));
+    mainmenu[0].setPosition(Vector2f((800 - mainmenu[0].getGlobalBounds().width) / 2, 600 / 4));
 
     mainmenu[1].setFont(font);
     mainmenu[1].setFillColor(Color::White);
     mainmenu[1].setString("Exit");
     mainmenu[1].setCharacterSize(60);
-    mainmenu[1].setPosition(Vector2f((800 - mainmenu[0].getGlobalBounds().width) / 2, 600 / (4) + 50));
+    mainmenu[1].setPosition(Vector2f((800 - mainmenu[0].getGlobalBounds().width) / 2, 600 / 4 + 50));
 
-    selected = 0;  // Inicializa el índice seleccionado
+    selected = 0;  
 }
 
 void Menu::SetSelected(int n)
@@ -43,44 +42,83 @@ void Menu::SetSelected(int n)
 
 void Menu::ProcessInput(sf::Event& event)
 {
-    if (event.key.code == sf::Keyboard::Down) 
+    if (event.type == sf::Event::KeyPressed)
     {
-        MoveDown();
-    }
-    if (event.key.code == sf::Keyboard::Up) {
-        MoveUp();
-    }
-    if (event.key.code == sf::Keyboard::Return) {
-        int x = Pressed();
-        if (x == 0) 
+        if (event.key.code == sf::Keyboard::Down) 
         {
-            state_stack->push(new GameState(state_stack, window));
+            MoveDown();
         }
-        if (x == 1) 
+        else if (event.key.code == sf::Keyboard::Up) {
+            MoveUp();
+        }
+        else if (event.key.code == sf::Keyboard::Return) 
         {
-            window->close();
+            int x = Pressed();
+            if (x == 0) 
+            {
+                state_stack->push(new GameState(state_stack, window));
+            }
+            else if (x == 1) 
+            {
+                window->close();
+            }
+        }
+    }
+    else if (event.type == sf::Event::MouseButtonPressed)
+    {
+        if (event.mouseButton.button == sf::Mouse::Left)
+        {
+            Vector2i mousePosition = sf::Mouse::getPosition(*window);
+            HandleMouseInput(mousePosition);
+        }
+    }
+    else if (event.type == sf::Event::MouseMoved)
+    {
+        Vector2i mousePosition = sf::Mouse::getPosition(*window);
+        HandleMouseInput(mousePosition);
+    }
+}
+
+void Menu::HandleMouseInput(Vector2i mousePosition)
+{
+    for (int i = 0; i < 2; ++i)
+    {
+        if (mainmenu[i].getGlobalBounds().contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
+        {
+            mainmenu[selected].setFillColor(Color::White); 
+            selected = i;
+            mainmenu[selected].setFillColor(Color{225, 204, 0}); 
+            if (Mouse::isButtonPressed(Mouse::Left))
+            {
+                if (i == 0) 
+                {
+                    state_stack->push(new GameState(state_stack, window));
+                }
+                else if (i == 1) 
+                {
+                    window->close();
+                }
+            }
         }
     }
 }
 
 void Menu::Update(const float& deltaTime)
 {
-
 }
 
 void Menu::Draw(sf::RenderWindow* window)
 {
     window->draw(menu_sprite);
-    for(int i= 0; i < 2; i++)
+    for (int i = 0; i < 2; i++)
     {
         window->draw(mainmenu[i]);
     }
-
 }
 
 void Menu::MoveDown()
 {
-    if(selected + 1 <= 2)
+    if (selected + 1 <= 2)
     {
         mainmenu[selected].setFillColor(Color::White);
         selected++;
@@ -88,13 +126,13 @@ void Menu::MoveDown()
         {
             selected = 0;
         }
-        mainmenu[selected].setFillColor(Color{255,204,0});
+        mainmenu[selected].setFillColor(Color{255, 204, 0});
     }
 }
 
 void Menu::MoveUp()
 {
-    if(selected -1 >= -1)
+    if (selected - 1 >= -1)
     {
         mainmenu[selected].setFillColor(Color::White);
         selected--;
@@ -102,6 +140,6 @@ void Menu::MoveUp()
         {
             selected = 2;
         }
-        mainmenu[selected].setFillColor(Color{255,204,0});
+        mainmenu[selected].setFillColor(Color{255, 204, 0});
     }
 }

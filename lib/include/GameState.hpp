@@ -8,10 +8,10 @@ class GameState : public State
 {
 public:
     GameState(std::stack<State*>* state_stack, sf::RenderWindow* window);
-    void Init() override; // Make sure to override
-    void ProcessInput(sf::Event& event) override; // Make sure to override
-    void Update(const float& deltaTime) override; // Make sure to override
-    void Draw(sf::RenderWindow* window = nullptr) override; // Make sure to override
+    void Init() override; 
+    void ProcessInput(sf::Event& event) override; 
+    void Update(const float& deltaTime) override; 
+    void Draw(sf::RenderWindow* window = nullptr) override; 
     ~GameState();
 
 private:

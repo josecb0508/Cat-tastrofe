@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "*.tcc": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "stack": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

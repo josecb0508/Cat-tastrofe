@@ -1,4 +1,5 @@
 #include "GameState.hpp"
+#include "MenuPauseState.hpp"
 #include "Golem.hpp"
 
 GameState::GameState(std::stack<State*>* state_stack, sf::RenderWindow* window)
@@ -27,7 +28,13 @@ void GameState::Init()
 
 void GameState::ProcessInput(sf::Event& event)
 {
-    // Implement input handling here if needed
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if(event.key.code == sf::Keyboard::P) 
+        {
+            state_stack->push(new MenuPauseState(state_stack, window));
+        }
+    }
 }
 
 void GameState::Update(const float& deltaTime)

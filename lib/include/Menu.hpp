@@ -10,12 +10,13 @@ class Menu : public State
 {
 public:
     Menu(std::stack<State*> *state_stack, sf::RenderWindow* window, float width, float height);
-    void Init() override;  // Agregado
+    void Init() override;
     void Draw(sf::RenderWindow* window = nullptr) override;
     void MoveUp();
     void MoveDown();
     void SetSelected(int n);
     void ProcessInput(sf::Event& event);
+    void HandleMouseInput(Vector2i mousePosition); 
     void Update(const float& deltaTime) override;
     int Pressed() const {
         return selected;

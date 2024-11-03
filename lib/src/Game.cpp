@@ -26,10 +26,10 @@ void Game::InitGame()
 void Game::run() {
     while (window->isOpen()) 
     {
-        deltaTime = clock.restart().asSeconds();  // Actualiza deltaTime aquí
-        HandleEvents();  // Llama a HandleEvents solo una vez
-        Update();        // Actualiza el estado
-        Draw();          // Dibuja el contenido en la ventana
+        deltaTime = clock.restart().asSeconds();  
+        HandleEvents(); 
+        Update();     
+        Draw();          
     }
 }
 
@@ -55,18 +55,18 @@ void Game::Update()
 {
     if (!this->state_stack.empty())
     {
-        this->state_stack.top()->Update(deltaTime);  // Usa deltaTime aquí
+        this->state_stack.top()->Update(deltaTime);  
     }
 }
 
 void Game::Draw()
 {
-    this->window->clear();  // Este clear debe ir aquí
+    this->window->clear(); 
 
     if (!this->state_stack.empty())
     {
-        this->state_stack.top()->Draw(window);  // Asegúrate de pasar el window
+        this->state_stack.top()->Draw(window);  
     }
 
-    this->window->display();  // Muestra el contenido dibujado
+    this->window->display(); 
 }
