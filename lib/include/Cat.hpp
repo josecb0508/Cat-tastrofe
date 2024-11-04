@@ -12,7 +12,10 @@ public:
     void Draw(sf::RenderWindow& window);
     void SetPosition(const sf::Vector2f& position);
     sf::Vector2f GetPosition() const;
+    void GetDamage(float delta_time, Enemy& enemy);
+
 private:
+    void UpdateHealthBar();
     void AnimateMovement(float delta_time);     
     void AnimateAttack(float delta_time);           
     void SetDirection(int row);               
@@ -36,10 +39,14 @@ private:
     bool attacking_;                             
     float attack_duration_;                      
     float attack_timer_;                        
-    sf::RectangleShape square_;                 
+    sf::RectangleShape square_;         
+    sf::RectangleShape hp_bar;        
     sf::RectangleShape bounding_square_;       
     sf::Vector2i size_;                       
     static bool IsRectContained(const sf::FloatRect& bounds, const sf::FloatRect& rect); 
+    sf::RectangleShape hp_bar_background_;
+    float max_hp_;
+    float current_hp_;    
 };
 
 #endif
