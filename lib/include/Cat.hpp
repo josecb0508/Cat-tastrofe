@@ -22,7 +22,6 @@ private:
     void StartAttack();                         
     void ResetFrame();
     void Scratch(float delta_time, Enemy& enemy);
-    float hp_cat;
     sf::Texture texture_;                      
     sf::Sprite sprite_;                         
     sf::IntRect current_frame_;                
@@ -46,7 +45,9 @@ private:
     static bool IsRectContained(const sf::FloatRect& bounds, const sf::FloatRect& rect); 
     sf::RectangleShape hp_bar_background_;
     float max_hp_;
-    float current_hp_;    
+    float current_hp_;  
+    float strength_cat_;
+    float defense_Cat_;  
 };
 
 #endif
