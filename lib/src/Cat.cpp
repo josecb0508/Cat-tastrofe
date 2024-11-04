@@ -9,8 +9,10 @@ Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initial_position)
       current_row_(0),
       moving_(false),
       attacking_(false),
-      attack_duration_(0.3),  
-      attack_timer_(0)
+      attack_duration_(0.4),  
+      attack_timer_(0),
+      max_hp_(100),
+      current_hp_(100)
 {
     texture_.loadFromFile(sprite_cat);
     frame_width_ = 45;
@@ -26,9 +28,16 @@ Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initial_position)
 
     size_ = sf::Vector2i(45, 45);
     bounding_square_.setFillColor(sf::Color::Transparent);
-    bounding_square_.setOutlineColor(sf::Color::Transparent);
+    bounding_square_.setOutlineColor(sf::Color::Red);
     bounding_square_.setOutlineThickness(1);
     bounding_square_.setSize(sf::Vector2f(size_.x * sprite_.getScale().x, size_.y * sprite_.getScale().y));
+    hp_bar_background_.setSize(sf::Vector2f(100, 10)); 
+    hp_bar_background_.setFillColor(sf::Color(100, 100, 100)); 
+    hp_bar_background_.setPosition(10, 10); 
+
+    hp_bar.setSize(sf::Vector2f(100, 10)); 
+    hp_bar.setFillColor(sf::Color::Green);
+    hp_bar.setPosition(10, 10);   
 }
 
 bool Cat::IsRectContained(const sf::FloatRect& outer_rect, const sf::FloatRect& inner_rect) {
@@ -36,6 +45,16 @@ bool Cat::IsRectContained(const sf::FloatRect& outer_rect, const sf::FloatRect& 
            outer_rect.contains(inner_rect.left + inner_rect.width, inner_rect.top) &&
            outer_rect.contains(inner_rect.left, inner_rect.top + inner_rect.height) &&
            outer_rect.contains(inner_rect.left + inner_rect.width, inner_rect.top + inner_rect.height);
+}
+
+void Cat::GetDamage(float delta_time, Enemy& enemy)
+{
+    if (bounding_square_.getGlobalBounds().intersects(enemy.GetHitbox())) 
+        {
+            current_hp_ -= enemy.GetStrength();
+        }
+            UpdateHealthBar();
+
 }
 
 void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {
@@ -90,6 +109,7 @@ void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {
     if (attacking_) {
         AnimateAttack(delta_time);
     }
+    GetDamage(delta_time, enemy);
 }
 
 void Cat::AnimateMovement(float delta_time) {
@@ -184,7 +204,14 @@ void Cat::ResetFrame() {
     sprite_.setTextureRect(current_frame_);
 }
 
+void Cat::UpdateHealthBar() {
+    float hp_percentage = current_hp_ / max_hp_;
+    hp_bar.setSize(sf::Vector2f(100 * hp_percentage, 10));
+}
 void Cat::Draw(sf::RenderWindow& window) {
+        window.draw(hp_bar_background_); 
+    window.draw(hp_bar); 
+
     window.draw(bounding_square_);
     window.draw(sprite_);
     if (attacking_) {
