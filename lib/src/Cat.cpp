@@ -12,7 +12,9 @@ Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initial_position)
       attack_duration_(0.4),  
       attack_timer_(0),
       max_hp_(100),
-      current_hp_(100)
+      current_hp_(100),
+      strength_cat_(20),
+      defense_Cat_(5)
 {
     texture_.loadFromFile(sprite_cat);
     frame_width_ = 45;
@@ -51,7 +53,7 @@ void Cat::GetDamage(float delta_time, Enemy& enemy)
 {
     if (bounding_square_.getGlobalBounds().intersects(enemy.GetHitbox())) 
         {
-            current_hp_ -= enemy.GetStrength();
+            current_hp_ -= enemy.GetStrength()/defense_Cat_;
         }
             UpdateHealthBar();
 
@@ -173,11 +175,13 @@ void Cat::AnimateAttack(float delta_time) {
     }
 }
 
-void Cat::Scratch(float delta_time, Enemy& enemy) {
-    if (attacking_) {
+void Cat::Scratch(float delta_time, Enemy& enemy) 
+{
+    if (attacking_) 
+    {
         AnimateAttack(delta_time);
         if (square_.getGlobalBounds().intersects(enemy.GetHitbox())) {
-            enemy.TakeDamage(50);
+            enemy.TakeDamage(strength_cat_);
         }
     }
 }
@@ -204,14 +208,14 @@ void Cat::ResetFrame() {
     sprite_.setTextureRect(current_frame_);
 }
 
-void Cat::UpdateHealthBar() {
+void Cat::UpdateHealthBar() 
+{      
     float hp_percentage = current_hp_ / max_hp_;
     hp_bar.setSize(sf::Vector2f(100 * hp_percentage, 10));
 }
 void Cat::Draw(sf::RenderWindow& window) {
-        window.draw(hp_bar_background_); 
+    window.draw(hp_bar_background_); 
     window.draw(hp_bar); 
-
     window.draw(bounding_square_);
     window.draw(sprite_);
     if (attacking_) {

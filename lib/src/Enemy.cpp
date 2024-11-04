@@ -1,8 +1,8 @@
 #include "Enemy.hpp"
 
 Enemy::Enemy(const std::string& spriteSheet, const sf::Vector2f& position, float health, 
-             const sf::Vector2i& size, const sf::Vector2f& scale, const sf::Color& hitbox_color)
-    : health_(health), size_(size)
+             const sf::Vector2i& size, const sf::Vector2f& scale, const sf::Color& hitbox_color, float strength, int beta_particles)
+    : health_(health), strength_(strength), size_(size), beta_particles_(beta_particles)
 {
     texture_.loadFromFile(spriteSheet);
     sprite_.setTexture(texture_);

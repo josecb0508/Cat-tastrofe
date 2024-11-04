@@ -2,7 +2,7 @@
 #include <cmath>
 
 Golem::Golem(const std::string& spriteSheet, const std::string& attackSpriteSheet, const sf::Vector2f& position)
-    : Enemy(spriteSheet, position, 50, {35, 35}, {3, 3}, sf::Color::Transparent)
+    : Enemy(spriteSheet, position, 50, {35, 35}, {3, 3}, sf::Color::Red, 10, 5)
 {
     attack_texture_.loadFromFile(attackSpriteSheet);
     attack_sprite_.setTexture(attack_texture_);
@@ -16,6 +16,7 @@ void Golem::Move(float deltaTime, const sf::Vector2f& targetPosition) {
         direction /= distance; 
         float speed = 100.0f;
         sprite_.move(direction * speed * deltaTime);
+        bounding_square_.move(direction * speed * deltaTime);         
         UpdateDirection(targetPosition);
     }
 }
