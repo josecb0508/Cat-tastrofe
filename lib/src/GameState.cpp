@@ -41,6 +41,11 @@ void GameState::Update(const float& deltaTime)
 {
     cat.Move(deltaTime, room, golem);
     golem.Move(deltaTime, cat.GetPosition());
+
+    if(cat.GetHealth() <= 0)
+    {
+        state_stack->push(new GameOverState(state_stack, window));
+    }
 }
 
 void GameState::Draw(sf::RenderWindow* window)

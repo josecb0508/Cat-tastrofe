@@ -64,43 +64,6 @@ void Menu::ProcessInput(sf::Event& event)
             }
         }
     }
-    else if (event.type == sf::Event::MouseButtonPressed)
-    {
-        if (event.mouseButton.button == sf::Mouse::Left)
-        {
-            Vector2i mousePosition = sf::Mouse::getPosition(*window);
-            HandleMouseInput(mousePosition);
-        }
-    }
-    else if (event.type == sf::Event::MouseMoved)
-    {
-        Vector2i mousePosition = sf::Mouse::getPosition(*window);
-        HandleMouseInput(mousePosition);
-    }
-}
-
-void Menu::HandleMouseInput(Vector2i mousePosition)
-{
-    for (int i = 0; i < 2; ++i)
-    {
-        if (mainmenu[i].getGlobalBounds().contains(static_cast<float>(mousePosition.x), static_cast<float>(mousePosition.y)))
-        {
-            mainmenu[selected].setFillColor(Color::White); 
-            selected = i;
-            mainmenu[selected].setFillColor(Color{225, 204, 0}); 
-            if (Mouse::isButtonPressed(Mouse::Left))
-            {
-                if (i == 0) 
-                {
-                    state_stack->push(new GameState(state_stack, window));
-                }
-                else if (i == 1) 
-                {
-                    window->close();
-                }
-            }
-        }
-    }
 }
 
 void Menu::Update(const float& deltaTime)

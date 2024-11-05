@@ -2,6 +2,7 @@
 #define CAT_HPP
 
 #include <SFML/Graphics.hpp>
+#include "GameOverState.hpp"
 #include "Map.hpp"
 #include "Enemy.hpp"
 
@@ -13,6 +14,7 @@ public:
     void SetPosition(const sf::Vector2f& position);
     sf::Vector2f GetPosition() const;
     void GetDamage(float delta_time, Enemy& enemy);
+    float GetHealth();
 
 private:
     void UpdateHealthBar();

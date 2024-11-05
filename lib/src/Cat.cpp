@@ -52,11 +52,15 @@ bool Cat::IsRectContained(const sf::FloatRect& outer_rect, const sf::FloatRect& 
 void Cat::GetDamage(float delta_time, Enemy& enemy)
 {
     if (bounding_square_.getGlobalBounds().intersects(enemy.GetHitbox())) 
-        {
-            current_hp_ -= enemy.GetStrength()/defense_Cat_;
-        }
-            UpdateHealthBar();
+    {
+        current_hp_ -= enemy.GetStrength()/defense_Cat_;
+    }
+        UpdateHealthBar();
+}
 
+float Cat::GetHealth()
+{
+    return current_hp_;
 }
 
 void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {

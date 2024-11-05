@@ -16,7 +16,6 @@ public:
     void MoveDown();
     void SetSelected(int n);
     void ProcessInput(sf::Event& event);
-    void HandleMouseInput(Vector2i mousePosition); 
     void Update(const float& deltaTime) override;
     int Pressed() const {
         return selected;
