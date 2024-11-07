@@ -17,8 +17,15 @@ public:
     Map(int width, int height, int level);
     void GenerateMap();
     void LoadTextures();
-    void Draw(sf::RenderWindow* window);
+    virtual void Draw(sf::RenderWindow* window);  
+    void DrawRoom(sf::RenderWindow* window, int roomX, int roomY);  
     const sf::FloatRect GetBounds() const;
+    CellType GetCellType(int x, int y) const;
+    int GetCellWidth() const;
+    int GetCellHeight() const;
+    std::vector<std::vector<CellType>> floorplan;
+    int GetMapWidth() const { return mapWidth; }
+    int GetMapHeight() const { return mapHeight; }
 
 private:
     sf::RectangleShape wall_;
@@ -26,15 +33,14 @@ private:
     sf::Texture treasureroom_Texture_;
     sf::Texture bossroom_Texture_;
     sf::Texture secretroom_texture_;
-    std::vector<std::vector<CellType>> floorplan;
     int cellWidth;
     int cellHeight;
     int mapWidth;
     int mapHeight;
-    int currentLevel;  
-    int CalculateRoomCount() const;  
+    int currentLevel;
+    int CalculateRoomCount() const;
     int CountFilledNeighbors(int x, int y) const;
-    std::pair<int, int> FindFarthestRoom(int startX, int startY) const; 
+    std::pair<int, int> FindFarthestRoom(int startX, int startY) const;
 };
 
 #endif

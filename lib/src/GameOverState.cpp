@@ -14,13 +14,13 @@ GameOverState::~GameOverState() {}
 
 void GameOverState::Init()
 {
-    if (!texture.loadFromFile("resources/ciudad.png")) 
+    if (!texture.loadFromFile(".\\resources\\ciudad.png")) 
     {
         throw "Error al cargar la textura";
     }
 
     game_over.setTexture(texture);
-    font.loadFromFile("resources/Silkscreen-Regular.ttf");
+    font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
 
     title.setFont(font);
     title.setFillColor(Color{225, 204, 0});

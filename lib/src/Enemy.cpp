@@ -2,7 +2,7 @@
 
 Enemy::Enemy(const std::string& spriteSheet, const sf::Vector2f& position, float health, 
              const sf::Vector2i& size, const sf::Vector2f& scale, const sf::Color& hitbox_color, float strength, int beta_particles)
-    : health_(health), strength_(strength), size_(size), beta_particles_(beta_particles)
+    : health_(health), strength_(strength), size_(size), beta_particles_(beta_particles), is_alive_(true) 
 {
     texture_.loadFromFile(spriteSheet);
     sprite_.setTexture(texture_);
@@ -27,8 +27,10 @@ void Enemy::setHealth(float health)
 }
 
 void Enemy::Draw(sf::RenderWindow& window) {
-    window.draw(sprite_);      
-    window.draw(bounding_square_); 
+    if (is_alive_) {  
+        window.draw(sprite_);      
+        window.draw(bounding_square_);
+    }
 }
 
 sf::FloatRect Enemy::GetHitbox() const {
@@ -39,9 +41,12 @@ void Enemy::TakeDamage(float damage) {
     health_ -= damage;
     if (health_ < 0) {
         health_ = 0; 
+        is_alive_ = false;
+        bounding_square_.setSize(sf::Vector2f(0, 0)); 
     }
 }
 
 bool Enemy::IsDead() const {
     return health_ <= 0;
+    return !is_alive_;
 }

@@ -12,13 +12,13 @@ Menu::Menu(stack<State*> *state_stack, RenderWindow* window, float width, float 
 Menu::~Menu() {}
 
 void Menu::Init() {
-    if (!texture.loadFromFile("resources/ciudad.png")) 
+    if (!texture.loadFromFile(".\\resources\\ciudad.png")) 
     {
         throw "Error al cargar la textura";
     }
 
     menu_sprite.setTexture(texture);
-    font.loadFromFile("resources/Silkscreen-Regular.ttf");
+    font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
     
     mainmenu[0].setFont(font);
     mainmenu[0].setFillColor(Color{225, 204, 0});

@@ -14,13 +14,13 @@ MenuPauseState::~MenuPauseState() {}
 
 void MenuPauseState::Init()
 {
-    if (!texture.loadFromFile("resources/ciudad.png")) 
+    if (!texture.loadFromFile(".\\resources\\ciudad.png")) 
     {
         throw "Error al cargar la textura";
     }
 
     menu_pause.setTexture(texture);
-    font.loadFromFile("resources/Silkscreen-Regular.ttf");
+    font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
 
     pauseMenu[0].setFont(font);
     pauseMenu[0].setFillColor(Color{225, 204, 0});

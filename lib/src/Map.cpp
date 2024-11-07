@@ -5,7 +5,7 @@
 #include <cmath>
 
 Map::Map(int width, int height, int level)
-    : mapWidth(width), mapHeight(height), cellWidth(20), cellHeight(20), currentLevel(level) {
+    : mapWidth(width), mapHeight(height), cellWidth(150), cellHeight(150), currentLevel(level) {
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
 
     LoadTextures();
@@ -14,6 +14,21 @@ Map::Map(int width, int height, int level)
 
 const sf::FloatRect Map::GetBounds() const {
     return sf::FloatRect(0, 0, mapWidth, mapHeight);
+}
+
+CellType Map::GetCellType(int x, int y) const {
+    if (x < 0 || x >= mapWidth / cellWidth || y < 0 || y >= mapHeight / cellHeight) {
+        return EMPTY;
+    }
+    return floorplan[y][x]; 
+}
+
+int Map::GetCellWidth() const {
+    return cellWidth;
+}
+
+int Map::GetCellHeight() const {
+    return cellHeight;
 }
 
 int Map::CalculateRoomCount() const {
@@ -130,18 +145,44 @@ void Map::GenerateMap() {
 }
 
 void Map::LoadTextures() {
-    if (!room_texture_.loadFromFile("resources/normal_room.png")) {
+    if (!room_texture_.loadFromFile(".\\resources\\floor.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
-    if (!bossroom_Texture_.loadFromFile("resources/boss_room.png")) {
+    if (!bossroom_Texture_.loadFromFile(".\\resources\\boss_room.png")) {
         std::cerr << "Error loading boss room texture" << std::endl;
     }
-    if (!treasureroom_Texture_.loadFromFile("resources/treasure_room.png")) {
+    if (!treasureroom_Texture_.loadFromFile(".\\resources\\reward.png")) {
         std::cerr << "Error loading treasure room texture" << std::endl;
     }
-    if (!secretroom_texture_.loadFromFile("resources/secret_room.png")) {
+    if (!secretroom_texture_.loadFromFile(".\\resources\\secret_room.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
     }
+}
+
+void Map::DrawRoom(sf::RenderWindow* window, int roomX, int roomY) {
+    sf::RectangleShape rect(sf::Vector2f(cellWidth, cellHeight));
+    rect.setPosition(roomX * cellWidth, roomY * cellHeight);
+
+    switch (floorplan[roomY][roomX]) {
+        case EMPTY:
+            rect.setFillColor(sf::Color::Black);
+            rect.setTexture(nullptr);
+            break;
+        case FLOOR:
+            rect.setTexture(&room_texture_);
+            break;
+        case BOSS:
+            rect.setTexture(&bossroom_Texture_);
+            break;
+        case REWARD:
+            rect.setTexture(&treasureroom_Texture_);
+            break;
+        case SECRET:
+            rect.setTexture(&secretroom_texture_);
+            break;
+    }
+
+    window->draw(rect);
 }
 
 void Map::Draw(sf::RenderWindow* window) {
@@ -169,7 +210,6 @@ void Map::Draw(sf::RenderWindow* window) {
                     break;
             }
 
-            rect.move(300, -220);
             window->draw(rect);
         }
     }

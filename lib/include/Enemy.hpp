@@ -24,6 +24,7 @@ protected:
     sf::RectangleShape bounding_square_;
     sf::Vector2i size_;
     int beta_particles_; //experience dropped by enemies
+    bool is_alive_;
 };
 
 
