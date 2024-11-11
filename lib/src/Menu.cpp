@@ -12,7 +12,7 @@ Menu::Menu(stack<State*> *state_stack, RenderWindow* window, float width, float 
 Menu::~Menu() {}
 
 void Menu::Init() {
-    if (!texture.loadFromFile(".\\resources\\ciudad.png")) 
+    if (!texture.loadFromFile(".\\resources\\city.png")) 
     {
         throw "Error al cargar la textura";
     }
@@ -95,7 +95,7 @@ void Menu::MoveDown()
 
 void Menu::MoveUp()
 {
-    if (selected - 1 >= -1)
+    if (selected - 1 > -1)
     {
         mainmenu[selected].setFillColor(Color::White);
         selected--;

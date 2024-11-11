@@ -63,6 +63,17 @@ float Cat::GetHealth()
     return current_hp_;
 }
 
+std::vector <Item> Cat::GetInventory()
+{
+    return items;
+}
+
+
+void Cat::AddItem(Item item)
+{
+    items.push_back(item);
+}
+
 void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {
     velocity_ = sf::Vector2f(0, 0);
     moving_ = false;

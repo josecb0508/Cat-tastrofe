@@ -14,7 +14,7 @@ GameOverState::~GameOverState() {}
 
 void GameOverState::Init()
 {
-    if (!texture.loadFromFile(".\\resources\\ciudad.png")) 
+    if (!texture.loadFromFile(".\\resources\\city.png")) 
     {
         throw "Error al cargar la textura";
     }
@@ -23,7 +23,9 @@ void GameOverState::Init()
     font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
 
     title.setFont(font);
-    title.setFillColor(Color{225, 204, 0});
+    title.setFillColor(Color::Black);
+    title.setOutlineColor(Color::White);
+    title.setOutlineThickness(2);
     title.setString("GAME OVER");
     title.setCharacterSize(60);
     title.setPosition(Vector2f((800 - title.getGlobalBounds().width) / 2,75));
@@ -102,7 +104,7 @@ void GameOverState::MoveDown()
 
 void GameOverState::MoveUp()
 {
-    if (selected - 1 >= -1)
+    if (selected - 1 > -1)
     {
         gameOver[selected].setFillColor(Color::White);
         selected--;

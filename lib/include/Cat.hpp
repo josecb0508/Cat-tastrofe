@@ -15,6 +15,8 @@ public:
     sf::Vector2f GetPosition() const;
     void GetDamage(float delta_time, Enemy& enemy);
     float GetHealth();
+    std::vector <Item> GetInventory();
+    void AddItem(Item item);
 
 private:
     void UpdateHealthBar();
@@ -24,6 +26,7 @@ private:
     void StartAttack();                         
     void ResetFrame();
     void Scratch(float delta_time, Enemy& enemy);
+    std::vector <Item> items; 
     sf::Texture texture_;                      
     sf::Sprite sprite_;                         
     sf::IntRect current_frame_;                

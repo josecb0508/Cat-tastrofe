@@ -2,6 +2,7 @@
 #define STATE_HPP
 #include <SFML/Graphics.hpp>
 #include <stack>
+#include <map>
 
 class State
 {

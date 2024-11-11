@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <map>
+#include <Item.hpp>
 
 enum CellType {
     EMPTY,
@@ -29,10 +31,7 @@ public:
 
 private:
     sf::RectangleShape wall_;
-    sf::Texture room_texture_;
-    sf::Texture treasureroom_Texture_;
-    sf::Texture bossroom_Texture_;
-    sf::Texture secretroom_texture_;
+    std::map <std::string, sf::Texture> texture_map;
     int cellWidth;
     int cellHeight;
     int mapWidth;

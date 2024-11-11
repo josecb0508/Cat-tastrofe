@@ -14,7 +14,7 @@ MenuPauseState::~MenuPauseState() {}
 
 void MenuPauseState::Init()
 {
-    if (!texture.loadFromFile(".\\resources\\ciudad.png")) 
+    if (!texture.loadFromFile(".\\resources\\city.png")) 
     {
         throw "Error al cargar la textura";
     }
@@ -106,7 +106,7 @@ void MenuPauseState::MoveDown()
 
 void MenuPauseState::MoveUp()
 {
-    if (selected - 1 >= -1)
+    if (selected - 1 > -1)
     {
         pauseMenu[selected].setFillColor(Color::White);
         selected--;

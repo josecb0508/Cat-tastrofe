@@ -39,6 +39,13 @@ void GameState::ProcessInput(sf::Event& event)
             state_stack->push(new MenuPauseState(state_stack, window));
         }
     }
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if(event.key.code == sf::Keyboard::I) 
+        {
+            state_stack->push(new InventoryState(state_stack, window, &cat));
+        }
+    }
 }
 
 void GameState::Update(const float& deltaTime)

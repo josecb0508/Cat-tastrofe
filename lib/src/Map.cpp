@@ -145,17 +145,21 @@ void Map::GenerateMap() {
 }
 
 void Map::LoadTextures() {
-    if (!room_texture_.loadFromFile(".\\resources\\floor.png")) {
+    if (!texture_map["room"].loadFromFile(".\\resources\\floor.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
-    if (!bossroom_Texture_.loadFromFile(".\\resources\\boss_room.png")) {
+    if (!texture_map["boss"].loadFromFile(".\\resources\\boss_room.png")) {
         std::cerr << "Error loading boss room texture" << std::endl;
     }
-    if (!treasureroom_Texture_.loadFromFile(".\\resources\\reward.png")) {
+    if (!texture_map["treasure"].loadFromFile(".\\resources\\reward.png")) {
         std::cerr << "Error loading treasure room texture" << std::endl;
     }
-    if (!secretroom_texture_.loadFromFile(".\\resources\\secret_room.png")) {
+    if (!texture_map["secret"].loadFromFile(".\\resources\\secret_room.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
+    }
+    if (!texture_map["Mouse"].loadFromFile(".\\resources\\mouse.png")) 
+    {
+        throw "Error al cargar la textura";
     }
 }
 
@@ -163,26 +167,35 @@ void Map::DrawRoom(sf::RenderWindow* window, int roomX, int roomY) {
     sf::RectangleShape rect(sf::Vector2f(cellWidth, cellHeight));
     rect.setPosition(roomX * cellWidth, roomY * cellHeight);
 
+    Item mouse = Item("mouse", sf::Sprite(texture_map["Mouse"]));
     switch (floorplan[roomY][roomX]) {
         case EMPTY:
             rect.setFillColor(sf::Color::Black);
             rect.setTexture(nullptr);
             break;
         case FLOOR:
-            rect.setTexture(&room_texture_);
+            rect.setTexture(&texture_map["room"]);
+            window->draw(rect);
             break;
         case BOSS:
-            rect.setTexture(&bossroom_Texture_);
+            rect.setTexture(&texture_map["boss"]);
+            window->draw(rect);
             break;
         case REWARD:
-            rect.setTexture(&treasureroom_Texture_);
+            rect.setTexture(&texture_map["treasure"]);
+            mouse.setPosition(sf::Vector2f(
+                rect.getPosition().x + (rect.getGlobalBounds().width / 2.f) - (mouse.GetGlobalBounds().width / 4.5f),
+                rect.getPosition().y + (rect.getGlobalBounds().height / 2.f) - (mouse.GetGlobalBounds().height / 4.5f)
+                ));
+            mouse.setScale(sf::Vector2f(0.4f, 0.4f));
+            window->draw(rect);
+            mouse.Draw(*window);          
             break;
         case SECRET:
-            rect.setTexture(&secretroom_texture_);
+            rect.setTexture(&texture_map["secret"]);
+            window->draw(rect);
             break;
     }
-
-    window->draw(rect);
 }
 
 void Map::Draw(sf::RenderWindow* window) {
@@ -193,20 +206,20 @@ void Map::Draw(sf::RenderWindow* window) {
 
             switch (floorplan[y][x]) {
                 case EMPTY:
-                    rect.setFillColor(sf::Color::Black);
-                    rect.setTexture(nullptr);
-                    break;
+                rect.setFillColor(sf::Color::Black);
+                rect.setTexture(nullptr);
+                break;
                 case FLOOR:
-                    rect.setTexture(&room_texture_);
+                    rect.setTexture(&texture_map["room"]);
                     break;
                 case BOSS:
-                    rect.setTexture(&bossroom_Texture_);
+                    rect.setTexture(&texture_map["boss"]);
                     break;
                 case REWARD:
-                    rect.setTexture(&treasureroom_Texture_);
+                    rect.setTexture(&texture_map["treasure"]);
                     break;
                 case SECRET:
-                    rect.setTexture(&secretroom_texture_);
+                    rect.setTexture(&texture_map["secret"]);
                     break;
             }
 

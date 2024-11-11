@@ -3,11 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <stack>
-#include "State.hpp"
 #include "Cat.hpp"
 #include "Golem.hpp"
-#include "Map.hpp"
 #include "Level.hpp"
+#include "InventoryState.hpp"
 
 class GameState : public State
 {
