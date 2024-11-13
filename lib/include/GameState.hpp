@@ -28,11 +28,11 @@ private:
     sf::Texture room_texture_;
     sf::Texture treasureroom_Texture_;
     sf::Texture bossroom_Texture_;
-    sf::Texture secretroom_texture_;          
-    //Level level;            
+    sf::Texture secretroom_texture_;  
+    sf::View camera;          
 
-    
     void DrawMinimap(sf::RenderWindow* window);
+    void UpdateCamera();
 };
 
 #endif

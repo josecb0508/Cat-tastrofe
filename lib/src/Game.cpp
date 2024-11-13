@@ -18,8 +18,8 @@ Game::~Game()
 
 void Game::InitGame()
 {
-    this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "Cat-tastrofe");
-    this->state_stack.push(new Menu(&state_stack, window, 800, 600));
+    this->window = new sf::RenderWindow(sf::VideoMode(1200, 700), "Cat-tastrofe");
+    this->state_stack.push(new Menu(&state_stack, window, 1200, 700));
     window->setFramerateLimit(60);
 }
 

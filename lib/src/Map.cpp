@@ -5,7 +5,7 @@
 #include <cmath>
 
 Map::Map(int width, int height, int level)
-    : mapWidth(width), mapHeight(height), cellWidth(150), cellHeight(150), currentLevel(level) {
+    : mapWidth(width), mapHeight(height), cellWidth(800), cellHeight(800), currentLevel(level) {
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
 
     LoadTextures();
