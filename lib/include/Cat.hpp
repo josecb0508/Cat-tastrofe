@@ -9,7 +9,7 @@
 class Cat {
 public:
     Cat(const std::string& spriteSheet, const sf::Vector2f& initialPosition);
-    void Move(float deltaTime, const Map& room, Enemy& enemy);
+    void Move(float deltaTime, Map& room, Enemy& enemy);
     void Draw(sf::RenderWindow& window);
     void SetPosition(const sf::Vector2f& position);
     sf::Vector2f GetPosition() const;
@@ -52,7 +52,9 @@ private:
     float max_hp_;
     float current_hp_;  
     float strength_cat_;
-    float defense_Cat_;  
+    float defense_Cat_; 
+    sf::Font font;
+    sf::Text message;
 };
 
 #endif

@@ -4,14 +4,25 @@ InventoryState::InventoryState(std::stack<State*> *state_stack, sf::RenderWindow
     : State(state_stack, window)
 {
     items = cat->GetInventory();
+    Init();
 }
+
+InventoryState::~InventoryState() {}
 
 void InventoryState::Init()
 {
     font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
+
+    title.setFont(font);
+    title.setFillColor(Color::Black);
+    title.setOutlineColor(Color::White);
+    title.setOutlineThickness(2);
+    title.setString("INVENTARIO");
+    title.setCharacterSize(60);
+    title.setPosition(Vector2f((800 - title.getGlobalBounds().width) / 2,75));
+
     for (size_t i = 0; i < items.size(); ++i)
     {
-        sf::Text name;
         name.setFont(font);
         name.setFillColor(sf::Color::White);
         name.setString(items[i].GetName());

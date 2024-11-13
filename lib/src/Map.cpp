@@ -9,6 +9,8 @@ Map::Map(int width, int height, int level)
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
 
     LoadTextures();
+    InitInventory();
+    randomItemIndex = RandomItemIndex(items);
     GenerateMap();
 }
 
@@ -157,17 +159,75 @@ void Map::LoadTextures() {
     if (!texture_map["secret"].loadFromFile(".\\resources\\secret_room.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
     }
-    if (!texture_map["Mouse"].loadFromFile(".\\resources\\mouse.png")) 
+    if (!texture_map["mouse"].loadFromFile(".\\resources\\mouse.png")) 
     {
-        throw "Error al cargar la textura";
+        std::cerr << "Error loading secret room texture" << std::endl;
     }
+    if (!texture_map["map"].loadFromFile(".\\resources\\map.png")) 
+    {
+        std::cerr << "Error loading secret room texture" << std::endl;
+    }
+    if (!texture_map["necklace"].loadFromFile(".\\resources\\necklace.png")) 
+    {
+        std::cerr << "Error loading secret room texture" << std::endl;
+    }
+    if (!texture_map["heart"].loadFromFile(".\\resources\\heart.png")) 
+    {
+        std::cerr << "Error loading secret room texture" << std::endl;
+    }
+    if (!texture_map["key"].loadFromFile(".\\resources\\key.png")) 
+    {
+        std::cerr << "Error loading secret room texture" << std::endl;
+    }
+    if (!texture_map["laser"].loadFromFile(".\\resources\\laser.png")) 
+    {
+        std::cerr << "Error loading secret room texture" << std::endl;
+    }
+    
+}
+
+int Map::RandomItemIndex(const std::vector<Item>& items) const 
+{
+    if (items.empty()) {
+        return -1; 
+    }
+
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> randomIndex(0, items.size() - 1);
+
+    return randomIndex(rng);
+}
+
+Item Map::GetRandomItem()
+{
+    return items[randomItemIndex];
+}
+
+void Map::InitInventory()
+{
+    items.push_back(Item("Mouse", sf::Sprite(texture_map["Mouse"])));
+    items.push_back(Item("Map", sf::Sprite(texture_map["map"])));
+    items.push_back(Item("Necklace", sf::Sprite(texture_map["necklace"])));
+    items.push_back(Item("Heart", sf::Sprite(texture_map["heart"])));
+    items.push_back(Item("Key", sf::Sprite(texture_map["key"])));
+    items.push_back(Item("Laser", sf::Sprite(texture_map["laser"])));
+}
+
+void Map::SetItemCollected(bool itemCollected_)
+{
+    itemCollected = itemCollected_;
+}
+
+void Map::SetItemIntersected(bool itemIntersected_)
+{
+    itemIntersected = itemIntersected_;
 }
 
 void Map::DrawRoom(sf::RenderWindow* window, int roomX, int roomY) {
     sf::RectangleShape rect(sf::Vector2f(cellWidth, cellHeight));
     rect.setPosition(roomX * cellWidth, roomY * cellHeight);
 
-    Item mouse = Item("mouse", sf::Sprite(texture_map["Mouse"]));
     switch (floorplan[roomY][roomX]) {
         case EMPTY:
             rect.setFillColor(sf::Color::Black);
@@ -183,13 +243,31 @@ void Map::DrawRoom(sf::RenderWindow* window, int roomX, int roomY) {
             break;
         case REWARD:
             rect.setTexture(&texture_map["treasure"]);
-            mouse.setPosition(sf::Vector2f(
-                rect.getPosition().x + (rect.getGlobalBounds().width / 2.f) - (mouse.GetGlobalBounds().width / 4.5f),
-                rect.getPosition().y + (rect.getGlobalBounds().height / 2.f) - (mouse.GetGlobalBounds().height / 4.5f)
+            items[randomItemIndex].setPosition(sf::Vector2f(
+                rect.getPosition().x + (rect.getGlobalBounds().width / 2.f) - (items[randomItemIndex].GetGlobalBounds().width / 4.5f),
+                rect.getPosition().y + (rect.getGlobalBounds().height / 2.f) - (items[randomItemIndex].GetGlobalBounds().height / 4.5f)
                 ));
-            mouse.setScale(sf::Vector2f(0.4f, 0.4f));
+            items[randomItemIndex].setScale(sf::Vector2f(0.4f, 0.4f));
             window->draw(rect);
-            mouse.Draw(*window);          
+
+            if(!itemCollected)
+            {
+            items[randomItemIndex].Draw(*window);
+                if(itemIntersected)
+                {
+                    font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
+                    message.setFont(font);
+                    message.setString("Presiona Z para recoger el objeto");
+                    message.setCharacterSize(20);
+                    message.setFillColor(sf::Color::White);
+                    message.setPosition(100, 100);
+                    window->draw(message);
+                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+                    {
+                        itemCollected = true;
+                    }
+                }
+            }
             break;
         case SECRET:
             rect.setTexture(&texture_map["secret"]);

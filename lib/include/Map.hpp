@@ -28,15 +28,26 @@ public:
     std::vector<std::vector<CellType>> floorplan;
     int GetMapWidth() const { return mapWidth; }
     int GetMapHeight() const { return mapHeight; }
+    int RandomItemIndex(const std::vector<Item>& items) const;
+    Item GetRandomItem();
+    void InitInventory();
+    void SetItemCollected(bool itemCollected_);
+    void SetItemIntersected(bool itemIntersected_);
+    bool itemCollected = false; 
+    bool itemIntersected = false;
 
 private:
     sf::RectangleShape wall_;
     std::map <std::string, sf::Texture> texture_map;
+    std::vector <Item> items;
+    sf::Text message;
+    sf::Font font;
     int cellWidth;
     int cellHeight;
     int mapWidth;
     int mapHeight;
     int currentLevel;
+    int randomItemIndex;
     int CalculateRoomCount() const;
     int CountFilledNeighbors(int x, int y) const;
     std::pair<int, int> FindFarthestRoom(int startX, int startY) const;

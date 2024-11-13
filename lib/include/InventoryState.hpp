@@ -11,8 +11,11 @@ class InventoryState : public State
     void Draw(sf::RenderWindow* window);
     std::vector <sf::Sprite> icons;
     std::vector <sf::Text> names;
+    ~InventoryState();
 
     private:
     std::vector <Item> items;
+    sf::Text name;
+    sf::Text title;
     Font font; 
 };

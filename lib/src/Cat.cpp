@@ -74,7 +74,7 @@ void Cat::AddItem(Item item)
     items.push_back(item);
 }
 
-void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {
+void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
     velocity_ = sf::Vector2f(0, 0);
     moving_ = false;
 
@@ -127,6 +127,18 @@ void Cat::Move(float delta_time, const Map& room, Enemy& enemy) {
         AnimateAttack(delta_time);
     }
     GetDamage(delta_time, enemy);
+
+
+    if(sprite_.getGlobalBounds().intersects(room.GetRandomItem().GetGlobalBounds()))
+    {
+        room.SetItemIntersected(true);
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+        {
+            room.SetItemCollected(true);
+            AddItem(room.GetRandomItem());
+        }
+    }
+
 }
 
 void Cat::AnimateMovement(float delta_time) {
