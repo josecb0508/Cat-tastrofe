@@ -23,7 +23,7 @@ protected:
     float strength_;
     sf::RectangleShape bounding_square_;
     sf::Vector2i size_;
-    int beta_particles_; //experience dropped by enemies
+    int beta_particles_; 
     bool is_alive_;
 };
 

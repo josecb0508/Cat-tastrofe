@@ -2,7 +2,7 @@
 #include <cmath>
 
 Golem::Golem(const std::string& spriteSheet, const std::string& attackSpriteSheet, const sf::Vector2f& position)
-    : Enemy(spriteSheet, position, 50, {35, 35}, {3, 3}, sf::Color::Red, 10, 5)
+    : Enemy(spriteSheet, position, 50, {35, 35}, {3, 3}, sf::Color::Transparent, 10, 5)
 {
     attack_texture_.loadFromFile(attackSpriteSheet);
     attack_sprite_.setTexture(attack_texture_);

@@ -108,36 +108,33 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
         hitbox_bounds.left = new_position.x;
         hitbox_bounds.top = new_position.y;
 
-        // Chequear colisiones solo si la nueva posición alcanza el borde de una celda `EMPTY`
         bool collision = false;
 
-        // Verificación en cada dirección si se alcanzará una celda `EMPTY`
-        if (velocity_.y < 0 && room.GetCellType(currentCellX, currentCellY - 1) == EMPTY) { // Arriba
+        if (velocity_.y < 0 && room.GetCellType(currentCellX, currentCellY - 1) == EMPTY) { 
             if (new_position.y < currentCellY * cellHeight) {
                 new_position.y = currentCellY * cellHeight;
                 collision = true;
             }
         } 
-        else if (velocity_.y > 0 && room.GetCellType(currentCellX, currentCellY + 1) == EMPTY) { // Abajo
+        else if (velocity_.y > 0 && room.GetCellType(currentCellX, currentCellY + 1) == EMPTY) { 
             if (new_position.y + bounding_square_.getSize().y > (currentCellY + 1) * cellHeight) {
                 new_position.y = (currentCellY + 1) * cellHeight - bounding_square_.getSize().y;
                 collision = true;
             }
         } 
-        else if (velocity_.x < 0 && room.GetCellType(currentCellX - 1, currentCellY) == EMPTY) { // Izquierda
+        else if (velocity_.x < 0 && room.GetCellType(currentCellX - 1, currentCellY) == EMPTY) { 
             if (new_position.x < currentCellX * cellWidth) {
                 new_position.x = currentCellX * cellWidth;
                 collision = true;
             }
         } 
-        else if (velocity_.x > 0 && room.GetCellType(currentCellX + 1, currentCellY) == EMPTY) { // Derecha
+        else if (velocity_.x > 0 && room.GetCellType(currentCellX + 1, currentCellY) == EMPTY) { 
             if (new_position.x + bounding_square_.getSize().x > (currentCellX + 1) * cellWidth) {
                 new_position.x = (currentCellX + 1) * cellWidth - bounding_square_.getSize().x;
                 collision = true;
             }
         }
 
-        // Solo actualizar la posición si no hay colisión
         if (!collision && IsRectContained(room.GetBounds(), hitbox_bounds)) {
             sprite_.setPosition(new_position);
             last_valid_position_ = new_position;
@@ -152,7 +149,6 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
         ResetFrame();
     }
 
-    // Control de ataque y otros comportamientos
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && !attacking_) {
         StartAttack();
     } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::X) && attacking_) {
@@ -166,7 +162,6 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
     }
     GetDamage(delta_time, enemy);
 
-    // Intersección con ítem en la habitación
     if(sprite_.getGlobalBounds().intersects(room.GetRandomItem().GetGlobalBounds()))
     {
         room.SetItemIntersected(true);

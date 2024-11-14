@@ -161,15 +161,12 @@ void GameState::DrawMinimap(sf::RenderWindow* window)
         }
     }
 
-    // Crear el marcador del jugador
     sf::CircleShape playerMarker(1.0f * minimapScale);  
     playerMarker.setFillColor(sf::Color::Red);
 
-    // Calcular en qué celda está el jugador
     int playerCellX = static_cast<int>(cat.GetPosition().x) / room.GetCellWidth();
     int playerCellY = static_cast<int>(cat.GetPosition().y) / room.GetCellHeight();
 
-    // Posicionar el marcador en el centro de la celda actual
     float playerMinimapX = minimapPosX + playerCellX * room.GetCellWidth() * scaleX + (room.GetCellWidth() * scaleX) / 2.f - playerMarker.getRadius();
     float playerMinimapY = minimapPosY + playerCellY * room.GetCellHeight() * scaleY + (room.GetCellHeight() * scaleY) / 2.f - playerMarker.getRadius();
 
