@@ -21,19 +21,22 @@ void InventoryState::Init()
     title.setPosition(Vector2f((1000 - title.getGlobalBounds().width) / 2, 50));
     
     float iconStartY = (title.getPosition().y + title.getGlobalBounds().height) + 20;
+    float centerX = 500;
 
     for (size_t i = 0; i < items.size(); ++i)
     {
         sf::Sprite icon = items[i].GetIcon();
         icon.setScale(sf::Vector2f(0.3f, 0.3f));
-        icon.setPosition(Vector2f(100, iconStartY + (i * 50)));
+        float iconX = centerX - (icon.getGlobalBounds().width + 10);
+        icon.setPosition(Vector2f(iconX, iconStartY + (i * 50)));
         icons.push_back(icon);
 
         name.setFont(font);
         name.setFillColor(sf::Color::White);
         name.setString(items[i].GetName());
         name.setCharacterSize(20);
-        name.setPosition(Vector2f((icon.getPosition().x + icon.getGlobalBounds().width) + 10, (iconStartY + (i * 50)) + 30));
+        float nameX = (icon.getPosition().x + icon.getGlobalBounds().width) + 10;
+        name.setPosition(sf::Vector2f(nameX, icon.getPosition().y + 20));
         names.push_back(name);
     } 
 }
