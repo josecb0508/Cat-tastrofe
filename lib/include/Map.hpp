@@ -32,6 +32,7 @@ public:
     Item GetRandomItem();
     void InitInventory();
     void SetItemCollected(bool itemCollected_);
+    bool GetItemCollected();
     void SetItemIntersected(bool itemIntersected_);
     bool itemCollected = false; 
     bool itemIntersected = false;

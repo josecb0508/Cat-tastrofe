@@ -57,6 +57,8 @@ private:
     float defense_Cat_; 
     sf::Font font;
     sf::Text message;
+    int itemCounter_ ;
+    const int itemLimit_ = 100; 
 };
 
 #endif

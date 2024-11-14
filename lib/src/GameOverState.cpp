@@ -28,19 +28,19 @@ void GameOverState::Init()
     title.setOutlineThickness(2);
     title.setString("GAME OVER");
     title.setCharacterSize(60);
-    title.setPosition(Vector2f((800 - title.getGlobalBounds().width) / 2,75));
+    title.setPosition(Vector2f((1000 - title.getGlobalBounds().width) / 2,75));
 
     gameOver[0].setFont(font);
     gameOver[0].setFillColor(Color{225, 204, 0});
     gameOver[0].setString("Retry");
     gameOver[0].setCharacterSize(60);
-    gameOver[0].setPosition(Vector2f((800 - gameOver[0].getGlobalBounds().width) / 2, 600 / 4));
+    gameOver[0].setPosition(Vector2f((1000 - gameOver[0].getGlobalBounds().width) / 2, 600 / 4));
 
     gameOver[1].setFont(font);
     gameOver[1].setFillColor(Color::White);
     gameOver[1].setString("Exit");
     gameOver[1].setCharacterSize(60);
-    gameOver[1].setPosition(Vector2f((800 - gameOver[1].getGlobalBounds().width) / 2, 600 / 4 + 50));
+    gameOver[1].setPosition(Vector2f((1000 - gameOver[1].getGlobalBounds().width) / 2, 600 / 4 + 50));
 
     selected = 0;
 }

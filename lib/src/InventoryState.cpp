@@ -14,26 +14,27 @@ void InventoryState::Init()
     font.loadFromFile(".\\resources\\Silkscreen-Regular.ttf");
 
     title.setFont(font);
-    title.setFillColor(Color::Black);
-    title.setOutlineColor(Color::White);
+    title.setFillColor(Color::White);
     title.setOutlineThickness(2);
     title.setString("INVENTARIO");
     title.setCharacterSize(60);
-    title.setPosition(Vector2f((800 - title.getGlobalBounds().width) / 2,75));
+    title.setPosition(Vector2f((1000 - title.getGlobalBounds().width) / 2, 50));
+    
+    float iconStartY = (title.getPosition().y + title.getGlobalBounds().height) + 20;
 
     for (size_t i = 0; i < items.size(); ++i)
     {
+        sf::Sprite icon = items[i].GetIcon();
+        icon.setScale(sf::Vector2f(0.3f, 0.3f));
+        icon.setPosition(Vector2f(100, iconStartY + (i * 50)));
+        icons.push_back(icon);
+
         name.setFont(font);
         name.setFillColor(sf::Color::White);
         name.setString(items[i].GetName());
         name.setCharacterSize(20);
-        name.setPosition(Vector2f(200, 100 + (i * 50)));
+        name.setPosition(Vector2f((icon.getPosition().x + icon.getGlobalBounds().width) + 10, (iconStartY + (i * 50)) + 30));
         names.push_back(name);
-
-        sf::Sprite icon = items[i].GetIcon();
-        icon.setScale(sf::Vector2f(0.4f, 0.4f));
-        icon.setPosition(Vector2f(100, 100 + (i * 50)));
-        icons.push_back(icon);
     } 
 }
 
@@ -59,6 +60,7 @@ void InventoryState::Draw(sf::RenderWindow* _window)
         _window = window;
     }
 
+    _window->draw(title);
     for (size_t i = 0; i < items.size(); ++i)
     {
         _window->draw(icons[i]);
