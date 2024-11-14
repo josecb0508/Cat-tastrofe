@@ -5,7 +5,7 @@
 #include <cmath>
 
 Map::Map(int width, int height, int level)
-    : mapWidth(width), mapHeight(height), cellWidth(800), cellHeight(800), currentLevel(level) {
+    : mapWidth(width), mapHeight(height), cellWidth(900), cellHeight(700), currentLevel(level) {
     floorplan.resize(mapHeight / cellHeight, std::vector<CellType>(mapWidth / cellWidth, EMPTY));
 
     LoadTextures();
@@ -147,7 +147,7 @@ void Map::GenerateMap() {
 }
 
 void Map::LoadTextures() {
-    if (!texture_map["room"].loadFromFile(".\\resources\\floor.png")) {
+    if (!texture_map["room"].loadFromFile(".\\resources\\floor_texture.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
     if (!texture_map["boss"].loadFromFile(".\\resources\\boss_room.png")) {

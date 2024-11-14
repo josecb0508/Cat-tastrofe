@@ -17,6 +17,8 @@ public:
     float GetHealth();
     std::vector <Item> GetInventory();
     void AddItem(Item item);
+    void DrawHealthBar(sf::RenderWindow& window);
+    Cat GetNewCat(Map& room, Cat& old_Cat);
 
 private:
     void UpdateHealthBar();

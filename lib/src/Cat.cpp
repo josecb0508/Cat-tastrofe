@@ -22,15 +22,15 @@ Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initial_position)
     sprite_.setTexture(texture_);
     current_frame_ = sf::IntRect(0, 0, frame_width_, frame_height_);
     sprite_.setTextureRect(current_frame_);
-    sprite_.setScale(2.5f, 2.5f);   
+    sprite_.setScale(1.8f, 1.8f);   
     sprite_.setPosition(initial_position);
 
     square_.setSize(sf::Vector2f(50, 50));
     square_.setFillColor(sf::Color::Red);
 
-    size_ = sf::Vector2i(45, 45);
+    size_ = sf::Vector2i(38, 38);
     bounding_square_.setFillColor(sf::Color::Transparent);
-    bounding_square_.setOutlineColor(sf::Color::Red);
+    bounding_square_.setOutlineColor(sf::Color::Transparent);
     bounding_square_.setOutlineThickness(1);
     bounding_square_.setSize(sf::Vector2f(size_.x * sprite_.getScale().x, size_.y * sprite_.getScale().y));
     hp_bar_background_.setSize(sf::Vector2f(100, 10)); 
@@ -78,6 +78,13 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
     velocity_ = sf::Vector2f(0, 0);
     moving_ = false;
 
+    int cellWidth = room.GetCellWidth();
+    int cellHeight = room.GetCellHeight();
+    sf::Vector2f position = sprite_.getPosition();
+    int currentCellX = static_cast<int>(position.x / cellWidth);
+    int currentCellY = static_cast<int>(position.y / cellHeight);
+
+    // Detectar el movimiento deseado y ajustar velocidad sin limitar el movimiento
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         velocity_.y = -200;
         SetDirection(4);
@@ -96,16 +103,48 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
         moving_ = true;
     }
 
-    if (moving_ || attacking_) {
+    // Si el gato está en movimiento, calculamos la nueva posición tentativamente
+    if (moving_) {
         sf::Vector2f new_position = sprite_.getPosition() + (velocity_ * delta_time);
         sf::FloatRect hitbox_bounds = bounding_square_.getGlobalBounds();
         hitbox_bounds.left = new_position.x;
         hitbox_bounds.top = new_position.y;
 
-        if (IsRectContained(room.GetBounds(), hitbox_bounds)) {
+        // Chequear colisiones solo si la nueva posición alcanza el borde de una celda `EMPTY`
+        bool collision = false;
+
+        // Verificación en cada dirección si se alcanzará una celda `EMPTY`
+        if (velocity_.y < 0 && room.GetCellType(currentCellX, currentCellY - 1) == EMPTY) { // Arriba
+            if (new_position.y < currentCellY * cellHeight) {
+                new_position.y = currentCellY * cellHeight;
+                collision = true;
+            }
+        } 
+        else if (velocity_.y > 0 && room.GetCellType(currentCellX, currentCellY + 1) == EMPTY) { // Abajo
+            if (new_position.y + bounding_square_.getSize().y > (currentCellY + 1) * cellHeight) {
+                new_position.y = (currentCellY + 1) * cellHeight - bounding_square_.getSize().y;
+                collision = true;
+            }
+        } 
+        else if (velocity_.x < 0 && room.GetCellType(currentCellX - 1, currentCellY) == EMPTY) { // Izquierda
+            if (new_position.x < currentCellX * cellWidth) {
+                new_position.x = currentCellX * cellWidth;
+                collision = true;
+            }
+        } 
+        else if (velocity_.x > 0 && room.GetCellType(currentCellX + 1, currentCellY) == EMPTY) { // Derecha
+            if (new_position.x + bounding_square_.getSize().x > (currentCellX + 1) * cellWidth) {
+                new_position.x = (currentCellX + 1) * cellWidth - bounding_square_.getSize().x;
+                collision = true;
+            }
+        }
+
+        // Solo actualizar la posición si no hay colisión
+        if (!collision && IsRectContained(room.GetBounds(), hitbox_bounds)) {
             sprite_.setPosition(new_position);
             last_valid_position_ = new_position;
         }
+
         bounding_square_.setPosition(sprite_.getPosition());
 
         if (moving_) {
@@ -115,12 +154,13 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
         ResetFrame();
     }
 
+    // Control de ataque y otros comportamientos
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) && !attacking_) {
         StartAttack();
     } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::X) && attacking_) {
         attacking_ = false;
-        current_row_ = direction_before_attack_; 
-        ResetFrame(); 
+        current_row_ = direction_before_attack_;
+        ResetFrame();
     }
     Scratch(delta_time, enemy);
     if (attacking_) {
@@ -128,17 +168,14 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
     }
     GetDamage(delta_time, enemy);
 
-
-    if(sprite_.getGlobalBounds().intersects(room.GetRandomItem().GetGlobalBounds()))
-    {
+    // Intersección con ítem en la habitación
+    if (sprite_.getGlobalBounds().intersects(room.GetRandomItem().GetGlobalBounds())) {
         room.SetItemIntersected(true);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-        {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
             room.SetItemCollected(true);
             AddItem(room.GetRandomItem());
         }
     }
-
 }
 
 void Cat::AnimateMovement(float delta_time) {
@@ -240,9 +277,12 @@ void Cat::UpdateHealthBar()
     float hp_percentage = current_hp_ / max_hp_;
     hp_bar.setSize(sf::Vector2f(100 * hp_percentage, 10));
 }
-void Cat::Draw(sf::RenderWindow& window) {
+
+void Cat::DrawHealthBar(sf::RenderWindow& window){
     window.draw(hp_bar_background_); 
     window.draw(hp_bar); 
+}
+void Cat::Draw(sf::RenderWindow& window) { 
     window.draw(bounding_square_);
     window.draw(sprite_);
     if (attacking_) {

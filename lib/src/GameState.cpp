@@ -7,9 +7,9 @@
 GameState::GameState(std::stack<State*>* state_stack, sf::RenderWindow* window)
     : State(state_stack, window),
       current_level(1), 
-      room(10000, 10000, current_level),  
+      room(13000, 13000, current_level),  
       cat(".\\resources\\cat.png", sf::Vector2f(0,0)),
-      golem(".\\resources\\enemy.png", ".\\resources\\enemy.png", sf::Vector2f(380, 350)),
+      golem(".\\resources\\enemy.png", ".\\resources\\enemy.png", sf::Vector2f(380, 350))
 {
     LoadTextures();
     Init();
@@ -94,7 +94,7 @@ void GameState::DrawMinimap(sf::RenderWindow* window)
     const float baseMinimapHeight = 75.f;
 
     bool isTabPressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Tab);
-    float minimapScale = isTabPressed ? 1.5f : 0.5f;
+    float minimapScale = isTabPressed ? 2.0f : 0.5f;
 
     const float minimapWidth = baseMinimapWidth * minimapScale;
     const float minimapHeight = baseMinimapHeight * minimapScale;
@@ -169,4 +169,6 @@ void GameState::Draw(sf::RenderWindow* window)
     }
     cat.Draw(*window);
     window->setView(window->getDefaultView());
+    cat.DrawHealthBar(*window);
+
 }
