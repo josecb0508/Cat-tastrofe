@@ -88,16 +88,16 @@ void GameState::Update(const float& deltaTime)
 }
 
 void GameState::LoadTextures() {
-    if (!room_texture_.loadFromFile(".\\resources\\normal_room.png")) {
+    if (!textures["floor"].loadFromFile(".\\resources\\floor_texture.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
-    if (!bossroom_Texture_.loadFromFile(".\\resources\\boss_room.png")) {
+    if (!textures["boss"].loadFromFile(".\\resources\\boss_room.png")) {
         std::cerr << "Error loading boss room texture" << std::endl;
     }
-    if (!treasureroom_Texture_.loadFromFile(".\\resources\\treasure_room.png")) {
+    if (!textures["reward"].loadFromFile(".\\resources\\reward.png")) {
         std::cerr << "Error loading treasure room texture" << std::endl;
     }
-    if (!secretroom_texture_.loadFromFile(".\\resources\\secret_room.png")) {
+    if (!textures["secret"].loadFromFile(".\\resources\\secret_room.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
     }
     if (!font_.loadFromFile(".\\resources\\Silkscreen-Regular.ttf")) {
@@ -144,16 +144,16 @@ void GameState::DrawMinimap(sf::RenderWindow* window)
                     cell.setTexture(nullptr);
                     break;
                 case FLOOR:
-                    cell.setTexture(&room_texture_);
+                    cell.setTexture(&textures["floor"]);
                     break;
                 case BOSS:
-                    cell.setTexture(&bossroom_Texture_);
+                    cell.setTexture(&textures["boss"]);
                     break;
                 case REWARD:
-                    cell.setTexture(&treasureroom_Texture_);
+                    cell.setTexture(&textures["reward"]);
                     break;
                 case SECRET:
-                    cell.setTexture(&secretroom_texture_);
+                    cell.setTexture(&textures["secret"]);
                     break;
             }
 

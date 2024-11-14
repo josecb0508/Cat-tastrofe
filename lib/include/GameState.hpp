@@ -25,10 +25,7 @@ private:
     Cat cat;                  
     Golem golem;             
     Map room;
-    sf::Texture room_texture_;
-    sf::Texture treasureroom_Texture_;
-    sf::Texture bossroom_Texture_;
-    sf::Texture secretroom_texture_;  
+    std::map <std::string, sf::Texture> textures;
     sf::View camera;  
     sf::Text levelText_;
     sf::Font font_;
