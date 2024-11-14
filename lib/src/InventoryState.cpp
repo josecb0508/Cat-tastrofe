@@ -16,7 +16,7 @@ void InventoryState::Init()
     title.setFont(font);
     title.setFillColor(Color::White);
     title.setOutlineThickness(2);
-    title.setString("INVENTARIO");
+    title.setString("INVENTORY");
     title.setCharacterSize(60);
     title.setPosition(Vector2f((1000 - title.getGlobalBounds().width) / 2, 50));
     
