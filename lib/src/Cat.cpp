@@ -169,9 +169,16 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
     GetDamage(delta_time, enemy);
 
     // Intersección con ítem en la habitación
-    if (sprite_.getGlobalBounds().intersects(room.GetRandomItem().GetGlobalBounds())) {
+    if(sprite_.getGlobalBounds().intersects(room.GetRandomItem().GetGlobalBounds()))
+    {
         room.SetItemIntersected(true);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+        if (!room.GetItemCollected() && itemCounter_ < itemLimit_) 
+        {
+            itemCounter_++;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z) && itemCounter_ >= itemLimit_ && !room.GetItemCollected())
+        {
+            itemCounter_ = 0;
             room.SetItemCollected(true);
             AddItem(room.GetRandomItem());
         }

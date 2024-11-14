@@ -219,6 +219,11 @@ void Map::SetItemCollected(bool itemCollected_)
     itemCollected = itemCollected_;
 }
 
+bool Map::GetItemCollected()
+{
+    return itemCollected;
+}
+
 void Map::SetItemIntersected(bool itemIntersected_)
 {
     itemIntersected = itemIntersected_;
@@ -262,10 +267,6 @@ void Map::DrawRoom(sf::RenderWindow* window, int roomX, int roomY) {
                     message.setFillColor(sf::Color::White);
                     message.setPosition(100, 100);
                     window->draw(message);
-                    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-                    {
-                        itemCollected = true;
-                    }
                 }
             }
             break;

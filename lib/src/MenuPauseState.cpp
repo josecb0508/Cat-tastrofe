@@ -26,19 +26,19 @@ void MenuPauseState::Init()
     pauseMenu[0].setFillColor(Color{225, 204, 0});
     pauseMenu[0].setString("Continue");
     pauseMenu[0].setCharacterSize(60);
-    pauseMenu[0].setPosition(Vector2f((800 - pauseMenu[0].getGlobalBounds().width) / 2, 600 / 4));
+    pauseMenu[0].setPosition(Vector2f((1000 - pauseMenu[0].getGlobalBounds().width) / 2, 600 / 4));
 
     pauseMenu[1].setFont(font);
     pauseMenu[1].setFillColor(Color::White);
     pauseMenu[1].setString("Menu");
     pauseMenu[1].setCharacterSize(60);
-    pauseMenu[1].setPosition(Vector2f((800 - pauseMenu[1].getGlobalBounds().width) / 2, 600 / 4 + 50));
+    pauseMenu[1].setPosition(Vector2f((1000 - pauseMenu[1].getGlobalBounds().width) / 2, 600 / 4 + 50));
 
     pauseMenu[2].setFont(font);
     pauseMenu[2].setFillColor(Color::White);
     pauseMenu[2].setString("Exit");
     pauseMenu[2].setCharacterSize(60);
-    pauseMenu[2].setPosition(Vector2f((800 - pauseMenu[2].getGlobalBounds().width) / 2, 600 / 4 + 100));
+    pauseMenu[2].setPosition(Vector2f((1000 - pauseMenu[2].getGlobalBounds().width) / 2, 600 / 4 + 100));
 
     selected = 0;
 }
