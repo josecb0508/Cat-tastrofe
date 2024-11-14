@@ -88,13 +88,13 @@ void GameState::Update(const float& deltaTime)
 }
 
 void GameState::LoadTextures() {
-    if (!textures["floor"].loadFromFile(".\\resources\\floor_texture.png")) {
+    if (!textures["floor"].loadFromFile(".\\resources\\normal_room.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
     if (!textures["boss"].loadFromFile(".\\resources\\boss_room.png")) {
         std::cerr << "Error loading boss room texture" << std::endl;
     }
-    if (!textures["reward"].loadFromFile(".\\resources\\reward.png")) {
+    if (!textures["reward"].loadFromFile(".\\resources\\treasure_room.png")) {
         std::cerr << "Error loading treasure room texture" << std::endl;
     }
     if (!textures["secret"].loadFromFile(".\\resources\\secret_room.png")) {
