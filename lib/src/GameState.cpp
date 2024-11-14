@@ -7,7 +7,7 @@
 GameState::GameState(std::stack<State*>* state_stack, sf::RenderWindow* window)
     : State(state_stack, window),
       current_level(1), 
-      room(13000, 13000, current_level),  
+      room(20000, 20000, current_level),  
       cat(".\\resources\\cat.png", sf::Vector2f(0,0)),
       golem(".\\resources\\enemy.png", ".\\resources\\enemy.png", sf::Vector2f(380, 350))
 {
@@ -16,6 +16,15 @@ GameState::GameState(std::stack<State*>* state_stack, sf::RenderWindow* window)
 
     camera.setSize(room.GetCellWidth(), room.GetCellHeight()); 
     camera.setCenter(cat.GetPosition());
+
+    if (!font_.loadFromFile(".\\resources\\Silkscreen-Regular.ttf")) {
+        std::cerr << "Error loading font for level text" << std::endl;
+    }
+    levelText_.setFont(font_);
+    levelText_.setCharacterSize(20);
+    levelText_.setFillColor(sf::Color::White);
+
+    UpdateLevelText();
 }
 
 GameState::~GameState(){}
@@ -34,6 +43,13 @@ void GameState::Init()
 
 void GameState::ProcessInput(sf::Event& event)
 {
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if(event.key.code == sf::Keyboard::Space)
+        {
+            ChangeLevel();
+        } 
+    }
     if (event.type == sf::Event::KeyPressed)
     {
         if(event.key.code == sf::Keyboard::P) 
@@ -153,6 +169,30 @@ void GameState::DrawMinimap(sf::RenderWindow* window)
 
     window->draw(playerMarker);
 }
+
+void GameState::ChangeLevel(){
+
+    current_level++;
+    UpdateLevelText();
+
+    room = Map(20000, 20000, current_level);
+
+    sf::Vector2f initialPosition(
+        room.GetBounds().width / 2 - (30 * 1.5 / 2), 
+        room.GetBounds().height / 2 - (30 * 1.5 / 2)
+    );
+
+    cat.SetPosition(initialPosition);
+
+    camera.setCenter(cat.GetPosition());
+}
+
+void GameState::UpdateLevelText(){
+
+    levelText_.setString("Floor: " + std::to_string(current_level));
+    levelText_.setPosition(cat.GetHealthBarPosition().x + 120, cat.GetHealthBarPosition().y - 10);
+
+}
 void GameState::Draw(sf::RenderWindow* window)
 {
     window->setView(camera);
@@ -170,5 +210,6 @@ void GameState::Draw(sf::RenderWindow* window)
     cat.Draw(*window);
     window->setView(window->getDefaultView());
     cat.DrawHealthBar(*window);
+    window->draw(levelText_);
 
 }

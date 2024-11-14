@@ -29,10 +29,14 @@ private:
     sf::Texture treasureroom_Texture_;
     sf::Texture bossroom_Texture_;
     sf::Texture secretroom_texture_;  
-    sf::View camera;          
+    sf::View camera;  
+    sf::Text levelText_;
+    sf::Font font_;
 
     void DrawMinimap(sf::RenderWindow* window);
     void UpdateCamera();
+    void ChangeLevel();
+    void UpdateLevelText();
 };
 
 #endif

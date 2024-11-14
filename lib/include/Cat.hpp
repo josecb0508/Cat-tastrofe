@@ -18,7 +18,7 @@ public:
     std::vector <Item> GetInventory();
     void AddItem(Item item);
     void DrawHealthBar(sf::RenderWindow& window);
-    Cat GetNewCat(Map& room, Cat& old_Cat);
+    sf::Vector2f GetHealthBarPosition() const;
 
 private:
     void UpdateHealthBar();

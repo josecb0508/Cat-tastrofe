@@ -282,6 +282,10 @@ void Cat::DrawHealthBar(sf::RenderWindow& window){
     window.draw(hp_bar_background_); 
     window.draw(hp_bar); 
 }
+
+sf::Vector2f Cat::GetHealthBarPosition() const {
+    return hp_bar_background_.getPosition(); 
+}
 void Cat::Draw(sf::RenderWindow& window) { 
     window.draw(bounding_square_);
     window.draw(sprite_);
