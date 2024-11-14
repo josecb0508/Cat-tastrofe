@@ -39,6 +39,7 @@ int Map::CalculateRoomCount() const {
     std::uniform_int_distribution<int> randomRoomCount(0, 2); 
 
     int baseRooms = currentLevel == 1 ? 7 : 5 + (currentLevel-1); 
+
     return randomRoomCount(rng) + baseRooms + static_cast<int>((currentLevel - 1) * 2.6);
 }
 
@@ -147,16 +148,16 @@ void Map::GenerateMap() {
 }
 
 void Map::LoadTextures() {
-    if (!texture_map["room"].loadFromFile(".\\resources\\floor_texture.png")) {
+    if (!texture_map["floor1"].loadFromFile(".\\resources\\Floor\\floor_texture.png")) {
         std::cerr << "Error loading normal room texture" << std::endl;
     }
-    if (!texture_map["boss"].loadFromFile(".\\resources\\boss_room.png")) {
+    if (!texture_map["boss"].loadFromFile(".\\resources\\Floor\\bossR_texture.png")) {
         std::cerr << "Error loading boss room texture" << std::endl;
     }
-    if (!texture_map["treasure"].loadFromFile(".\\resources\\reward.png")) {
+    if (!texture_map["treasure"].loadFromFile(".\\resources\\Floor\\treasureR_texture.png")) {
         std::cerr << "Error loading treasure room texture" << std::endl;
     }
-    if (!texture_map["secret"].loadFromFile(".\\resources\\secret_room.png")) {
+    if (!texture_map["secret"].loadFromFile(".\\resources\\Floor\\secretR_texture.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
     }
     if (!texture_map["mouse"].loadFromFile(".\\resources\\mouse.png")) 
@@ -239,7 +240,7 @@ void Map::DrawRoom(sf::RenderWindow* window, int roomX, int roomY) {
             rect.setTexture(nullptr);
             break;
         case FLOOR:
-            rect.setTexture(&texture_map["room"]);
+            rect.setTexture(&texture_map["floor1"]);
             window->draw(rect);
             break;
         case BOSS:

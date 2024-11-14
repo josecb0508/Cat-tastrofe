@@ -17,9 +17,6 @@ GameState::GameState(std::stack<State*>* state_stack, sf::RenderWindow* window)
     camera.setSize(room.GetCellWidth(), room.GetCellHeight()); 
     camera.setCenter(cat.GetPosition());
 
-    if (!font_.loadFromFile(".\\resources\\Silkscreen-Regular.ttf")) {
-        std::cerr << "Error loading font for level text" << std::endl;
-    }
     levelText_.setFont(font_);
     levelText_.setCharacterSize(20);
     levelText_.setFillColor(sf::Color::White);
@@ -35,9 +32,11 @@ void GameState::Init()
         room.GetBounds().width / 2 - (30 * 1.5 / 2), 
         room.GetBounds().height / 2 - (30 * 1.5 / 2)
     );
+    sf::Vector2f golemPosition(initialPosition.x + 200, initialPosition.y + 200);
+
 
     cat.SetPosition(initialPosition);
-    golem.setPosition(sf::Vector2f(200,150));
+    golem.setPosition(golemPosition);
     golem.setHealth(150);
 }
 
@@ -101,11 +100,14 @@ void GameState::LoadTextures() {
     if (!secretroom_texture_.loadFromFile(".\\resources\\secret_room.png")) {
         std::cerr << "Error loading secret room texture" << std::endl;
     }
+    if (!font_.loadFromFile(".\\resources\\Silkscreen-Regular.ttf")) {
+        std::cerr << "Error loading font for level text" << std::endl;
+    }
+
 }
 
 void GameState::DrawMinimap(sf::RenderWindow* window)
 {
-
     const float baseMinimapWidth = 100.f;
     const float baseMinimapHeight = 75.f;
 
@@ -159,13 +161,19 @@ void GameState::DrawMinimap(sf::RenderWindow* window)
         }
     }
 
-    sf::CircleShape playerMarker(2.f * minimapScale);  
+    // Crear el marcador del jugador
+    sf::CircleShape playerMarker(1.0f * minimapScale);  
     playerMarker.setFillColor(sf::Color::Red);
 
-    float playerMinimapX = cat.GetPosition().x * scaleX;
-    float playerMinimapY = cat.GetPosition().y * scaleY;
+    // Calcular en qué celda está el jugador
+    int playerCellX = static_cast<int>(cat.GetPosition().x) / room.GetCellWidth();
+    int playerCellY = static_cast<int>(cat.GetPosition().y) / room.GetCellHeight();
 
-    playerMarker.setPosition(minimapPosX + playerMinimapX, minimapPosY + playerMinimapY);
+    // Posicionar el marcador en el centro de la celda actual
+    float playerMinimapX = minimapPosX + playerCellX * room.GetCellWidth() * scaleX + (room.GetCellWidth() * scaleX) / 2.f - playerMarker.getRadius();
+    float playerMinimapY = minimapPosY + playerCellY * room.GetCellHeight() * scaleY + (room.GetCellHeight() * scaleY) / 2.f - playerMarker.getRadius();
+
+    playerMarker.setPosition(playerMinimapX, playerMinimapY);
 
     window->draw(playerMarker);
 }
@@ -181,8 +189,12 @@ void GameState::ChangeLevel(){
         room.GetBounds().width / 2 - (30 * 1.5 / 2), 
         room.GetBounds().height / 2 - (30 * 1.5 / 2)
     );
+    sf::Vector2f golemPosition(initialPosition.x + 200, initialPosition.y + 200);
 
     cat.SetPosition(initialPosition);
+    /*Enemy golem(".\\resources\\enemy.png", ".\\resources\\enemy.png", sf::Vector2f(380, 350));
+    golem.setPosition(golemPosition);
+    golem.setHealth(150);*/
 
     camera.setCenter(cat.GetPosition());
 }

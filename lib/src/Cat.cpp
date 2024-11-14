@@ -22,7 +22,7 @@ Cat::Cat(const std::string& sprite_cat, const sf::Vector2f& initial_position)
     sprite_.setTexture(texture_);
     current_frame_ = sf::IntRect(0, 0, frame_width_, frame_height_);
     sprite_.setTextureRect(current_frame_);
-    sprite_.setScale(1.8f, 1.8f);   
+    sprite_.setScale(2.5f, 2.5f);   
     sprite_.setPosition(initial_position);
 
     square_.setSize(sf::Vector2f(50, 50));
@@ -84,7 +84,6 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
     int currentCellX = static_cast<int>(position.x / cellWidth);
     int currentCellY = static_cast<int>(position.y / cellHeight);
 
-    // Detectar el movimiento deseado y ajustar velocidad sin limitar el movimiento
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         velocity_.y = -200;
         SetDirection(4);
@@ -103,7 +102,6 @@ void Cat::Move(float delta_time, Map& room, Enemy& enemy) {
         moving_ = true;
     }
 
-    // Si el gato está en movimiento, calculamos la nueva posición tentativamente
     if (moving_) {
         sf::Vector2f new_position = sprite_.getPosition() + (velocity_ * delta_time);
         sf::FloatRect hitbox_bounds = bounding_square_.getGlobalBounds();
